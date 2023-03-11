@@ -1,3 +1,5 @@
+
+const PAS_FRONTALIER = "Aucun pays frontaliers";
 var data = 
 [
    {
