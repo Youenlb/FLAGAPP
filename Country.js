@@ -1,7 +1,8 @@
 class Country
 {
-    constructor(alpha3Code,area,borders, capital, region, demonym, flag, translations,population,topLevelDomain)
+    constructor(name,alpha3Code,area,borders, capital, region, demonym, flag, translations,population,topLevelDomain)
     {
+        this._name = name;
         this._alpha3Code = alpha3Code;
         this._area = area;
         this._borders = borders;
@@ -15,6 +16,14 @@ class Country
     }
 
     //Accesseur + mutateur des propriétés
+    get name() 
+    {
+        return this._name;
+    }
+    set name(name) 
+    {
+    this._name = name;
+    }
     get alpha3Code()
     {
         return this._alpha3Code;
@@ -96,7 +105,12 @@ class Country
 
     toString() 
     {
-        return "\nAlpha3Code : " + this._alpha3Code + "\nArea : " + this._area + "Country : "+this._translations["fr"]+"\nCapital : " + this._capital + "\nRegion : " + this._region + "\nPopulation : " + this._population+"\n\n";
+        if(this._translations["fr"] !== undefined) //Si la translation existe on la sélectionne
+        {
+            return "\nAlpha3Code : " + this._alpha3Code + "\nArea : " + this._area + "Country : "+this._translations["fr"]+"\nCapital : " + this._capital + "\nRegion : " + this._region + "\nPopulation : " + this._population+"\n\n";
+        }
+        //Sinon on récupére la valeur contenu dans main qui est tout le temps présente
+        return "\nAlpha3Code : " + this._alpha3Code + "\nArea : " + this._area + "Country : "+this._name+"\nCapital : " + this._capital + "\nRegion : " + this._region + "\nPopulation : " + this._population+"\n\n";
     }
 
 }
