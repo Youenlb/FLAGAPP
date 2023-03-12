@@ -101,17 +101,25 @@ class Country
     }
     getBorders()
     {
-        if(this._borders !== PAS_FRONTALIER)
+        let tableau_pays_frontaliers = [];
+        if(this._borders !== PAS_FRONTALIER) //Si le pays ossède des pays frontaliers
         {
-            for(let pays_frontalier in this._borders)
+            for(let pays_frontalier of this._borders)
             {
-                
+                tableau_pays_frontaliers.push(Country.all_countries[pays_frontalier]);
             }
-        } 
+        }
+        return tableau_pays_frontaliers; 
     }
     toString() 
     {
-        return "\nAlpha3Code : " + this._alpha3Code + "\nArea : " + this._area + "Country : "+this._translations["en"]+"\nCapital : " + this._capital + "\nRegion : " + this._region + "\nPopulation : " + this._population+"\n\n";
+        return "\nAlpha3Code : " + this._alpha3Code + "\nArea : " + this._area + "\nCountry : "+this._translations["en"]+"\nCapital : " + this._capital + "\nRegion : " + this._region + "\nPopulation : " + this._population+"\n\n";
     }
 
 }
+
+
+
+//Amélioration possible 
+    //Pour la méthode getPopDensity avoir un arrondi avec 2 chiffre après la virgule ? 
+    

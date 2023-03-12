@@ -15,8 +15,10 @@ function fill_db()
         borders = data[indice_pays]["borders"] === undefined ? PAS_FRONTALIER : data[indice_pays]["borders"];
         //Création de l'objet Country du pays
         pays = new Country(
-            key_alpha3code,data[indice_pays]["area"],
-            borders,data[indice_pays]["capital"],
+            key_alpha3code,
+            data[indice_pays]["area"],
+            borders,
+            data[indice_pays]["capital"],
             data[indice_pays]["region"],
             data[indice_pays]["demonym"],
             data[indice_pays]["flag"],
@@ -29,7 +31,3 @@ function fill_db()
     }
 }
 fill_db();
-console.log(Country.all_countries);
-//Correction à apporter 
-    //pour le choix dans toString() gerer dans fill db l'ajout de "en" et utiliser dans toString() "en" et non "fr"
-    //Faire la dernière fonction de Country 
