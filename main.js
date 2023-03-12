@@ -19,7 +19,7 @@ function fill_db()
                 tableau_code_currency.push(code_currency);
                 if(Currency.all_currencies[code_currency] === undefined)
                 {
-                    Country.all_countries[code_currency] = new Currency(
+                    Currency.all_currencies[code_currency] = new Currency(
                         currency["code"],
                         currency["name"],
                         currency["symbol"]
@@ -27,7 +27,7 @@ function fill_db()
                 }
             }
         }
-        else
+        else //Si pas de monnaie (antartique)
         {
             pays["currencies"] = PAS_MONNAIE;
         }
