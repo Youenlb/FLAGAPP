@@ -1,7 +1,7 @@
 class Country
 {
     static all_countries = {};
-    constructor(alpha3Code,area,borders, capital, region, demonym, flag, translations,population,topLevelDomain,currencies)
+    constructor(alpha3Code,area,borders, capital, region, demonym, flag, translations,population,topLevelDomain,currencies,languages)
     {
         this._alpha3Code = alpha3Code;
         this._area = area;
@@ -14,6 +14,7 @@ class Country
         this._population = population;
         this._topLevelDomain = topLevelDomain;
         this._currencies = currencies;
+        this._languages = languages;
     }
 
     //Accesseur + mutateur des propriétés
@@ -104,6 +105,14 @@ class Country
     {
         this._currencies = currencies;
     }  
+    get languages()
+    {
+        return this._languages;
+    }
+    set languages(languages)
+    {
+        this._languages = languages;
+    }
     toString() 
     {
         return "\nAlpha3Code : " + this.alpha3Code + "\nArea : " + this.area + "\nCountry : "+this.translations["en"]+"\nCapital : " + this.capital + "\nRegion : " + this.region + "\nPopulation : " + this.population+"\n\n";

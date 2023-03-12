@@ -5,6 +5,8 @@ function fill_db()
     let name;
     let code_currency;
     let tableau_code_currency;
+    let code_language;
+    let tableau_code_language;
     for(let pays of data) //Parcours l'ensemble des pays
     {
         tableau_code_currency = [];
@@ -29,6 +31,20 @@ function fill_db()
         {
             pays["currencies"] = PAS_MONNAIE;
         }
+        /**Ajout des langues dans la variable all_languages**/
+        tableau_code_language = [];
+        for(let language of pays["languages"])
+        {
+            code_language = language["iso639_2"];
+            tableau_code_language.push(code_language);
+            if(Language.all_languages[code_language] === undefined)
+            {
+                Language.all_languages[code_language] = new Language(
+                    code_language,
+                    language["name"]
+                );
+            }
+        }
 
         /**Ajout des pays dans la variable all_countries **/
         key_alpha3code = pays["alpha3Code"];
@@ -49,12 +65,9 @@ function fill_db()
             pays["translations"],
             pays["population"],
             pays["topLevelDomain"],
-            tableau_code_currency
+            tableau_code_currency,
+            tableau_code_language
         );
     }
 }
 fill_db();
-console.log(Country.all_countries);
-
-//Ajout des codes currency dans un tableau de "tag"
-//ajout de ce tableau dans l'objet
