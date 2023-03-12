@@ -136,11 +136,20 @@ class Country
     getCurrencies()
     {
         let tableau_currencies = [];
-        for(let code_currency of this._currencies)
+        for(let code_currency of this.currencies)
         {
             tableau_currencies.push(Currency.all_currencies[code_currency]);
         }
         return tableau_currencies;
+    }
+    getLanguages()
+    {
+        let tableau_languages = [];
+        for(let code_language of this.languages)
+        {
+            tableau_languages.push(Language.all_languages[code_language]);
+        }
+        return tableau_languages;
     }
 
 }
@@ -149,3 +158,4 @@ class Country
 
 //Amélioration possible 
     //Pour la méthode getPopDensity avoir un arrondi avec 2 chiffre après la virgule ? 
+    //Tester chaque fonction (test les getters et setters une seule fois car si ça marche ça marche pour le reste) et test les autres fonction comme getLanguages
