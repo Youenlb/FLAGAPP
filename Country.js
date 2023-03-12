@@ -1,7 +1,7 @@
 class Country
 {
     static all_countries = {};
-    constructor(alpha3Code,area,borders, capital, region, demonym, flag, translations,population,topLevelDomain)
+    constructor(alpha3Code,area,borders, capital, region, demonym, flag, translations,population,topLevelDomain,currencies)
     {
         this._alpha3Code = alpha3Code;
         this._area = area;
@@ -13,6 +13,7 @@ class Country
         this._translations = translations;
         this._population = population;
         this._topLevelDomain = topLevelDomain;
+        this._currencies = currencies;
     }
 
     //Accesseur + mutateur des propriétés
@@ -95,6 +96,18 @@ class Country
     {
         this._topLevelDomain = tld;
     }
+    get currencies()
+    {
+        return this._currencies;
+    }
+    set currencies(currencies)
+    {
+        this._currencies = currencies;
+    }  
+    toString() 
+    {
+        return "\nAlpha3Code : " + this.alpha3Code + "\nArea : " + this.area + "\nCountry : "+this.translations["en"]+"\nCapital : " + this.capital + "\nRegion : " + this.region + "\nPopulation : " + this.population+"\n\n";
+    }
     getPopDensity()
     {
         return this._area !== 0.0 ? this._population/this._area : 0;  //Retourne 0.0 pour eviter la valeur Infinity
@@ -111,9 +124,14 @@ class Country
         }
         return tableau_pays_frontaliers; 
     }
-    toString() 
+    getCurrencies()
     {
-        return "\nAlpha3Code : " + this._alpha3Code + "\nArea : " + this._area + "\nCountry : "+this._translations["en"]+"\nCapital : " + this._capital + "\nRegion : " + this._region + "\nPopulation : " + this._population+"\n\n";
+        let tableau_currencies = [];
+        for(let code_currency of this._currencies)
+        {
+            tableau_currencies.push(Currency.all_currencies[code_currency]);
+        }
+        return tableau_currencies;
     }
 
 }
@@ -122,4 +140,3 @@ class Country
 
 //Amélioration possible 
     //Pour la méthode getPopDensity avoir un arrondi avec 2 chiffre après la virgule ? 
-    
