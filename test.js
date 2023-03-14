@@ -26,10 +26,11 @@ function outsideTheContinent() //Retourne les pays avec au moins un pays frontal
     }
     return tableau_continent_different;
 }
+console.log("#1-----------------------------------------------");
 console.log("Pays avec au moins un pays frontalier en dehors de son continent : ");
 console.log(outsideTheContinent());
 
-function moreNeighbors()
+function moreNeighbors() //Retourne le(s) pays avec le plus grand nombre de voisins
 {
     let tableau_pays_max_voisin = [];
     let max = 0;
@@ -53,12 +54,19 @@ function moreNeighbors()
     }
     return tableau_pays_max_voisin;
 }
-
+console.log("#2-----------------------------------------------");
 console.log("Les pays avec les plus grand nombre de voisins : ");
-console.log(moreNeighbors());
+let pays_more_neighbors = moreNeighbors();
+for(let code_pays of pays_more_neighbors)
+{
+    let neighbors = Country.all_countries[code_pays].getBorders().map((a) => a.alpha3Code);
+    console.log("Pays : " + code_pays);
+    console.log("Voisins : ");
+    console.log(neighbors);
+}
 
 
-function neighborless()
+function neighborless() //Retourne les pays qui n'ont pas de voisins 
 {
     let tableau_pays_pas_de_voisins = [];
     for(let code_pays in Country.all_countries)
@@ -70,11 +78,11 @@ function neighborless()
     }
     return tableau_pays_pas_de_voisins;
 }
-
+console.log("#3-----------------------------------------------");
 console.log("Pays qui n'ont aucuns voisins : ");
 console.log(neighborless());
 
-function moreLanguages()
+function moreLanguages() //Retourne le(s) pays avec le plus grand nombre de langages 
 {
     let tableau_pays_max_language = [];
     let max = 0;
@@ -98,6 +106,7 @@ function moreLanguages()
     }
     return tableau_pays_max_language;
 }
+console.log("#4-----------------------------------------------");
 console.log("Le(s) pays qui ont le plus de langues : ");
 let pays_more_languages = moreLanguages();
 for(let code_pays of pays_more_languages)
@@ -107,3 +116,43 @@ for(let code_pays of pays_more_languages)
     console.log("Languages : ");
     console.log(languages);
 }
+
+
+function withoutCommonCurrency() //Retourne les pays qui ne partage pas ses monnaies avec ses voisins
+{
+    let tableau_no_common_monney = [];
+    let indice_monnaie;
+    let common;
+    for(let code_pays in Country.all_countries)
+    {
+        let pays = Country.all_countries[code_pays];
+        let pays_frontalier = pays.getBorders();
+        let pays_monnaies = pays.getCurrencies();
+        if(pays_monnaies !== undefined) //Si le pays possède des pays frontaliers
+        {
+            indice_monnaie = 0;
+            common = false;//Partir du voisins
+            while((indice_monnaie < pays_monnaies.length) && !(common))
+            {
+                let comparaison_common = pays_frontalier.map((a) => a.getCurrencies().map((b) => b === pays_monnaies[indice_monnaie]));
+                console.log(comparaison_common);
+                /*
+                if(comparaison_common.contains(true))
+                {
+                    common = true;
+                }*/
+                indice_frontalier++;
+            }
+            if(!(common))
+            {
+                tableau_no_common_monney.push(code_pays);
+            }
+        }
+    }
+    return tableau_no_common_monney;
+    //Pour chaque voisin tester si il a une monnaie en commun si c'est le cas partir de la boucle et mettre à faux
+    //Sinon mettre a vrai et ajouter le pays 
+}
+console.log("#6-----------------------------------------------");
+console.log("Le(s) pays qui ne partage pas ses monnaies avec les pays voisins : ");
+console.log(withoutCommonCurrency());
