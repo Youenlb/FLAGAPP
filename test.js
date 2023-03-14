@@ -1,6 +1,6 @@
 function outsideTheContinent() //Retourne les pays avec au moins un pays frontalier en dehors de son continent
 {
-    let tableau_continent_different = {};
+    let tableau_continent_different = [];
     let pays;
     let pays_frontalier;
     let indice_frontalier;
@@ -17,7 +17,7 @@ function outsideTheContinent() //Retourne les pays avec au moins un pays frontal
             {
                 if(pays["region"] !== pays_frontalier[indice_frontalier]["region"])
                 {
-                    tableau_continent_different[pays["alpha3Code"]] = pays;
+                    tableau_continent_different.push(code_pays);
                     outside = true;
                 }
                 indice_frontalier++;
@@ -31,7 +31,7 @@ console.log(outsideTheContinent());
 
 function moreNeighbors()
 {
-    let tableau_pays_max_voisin = {};
+    let tableau_pays_max_voisin = [];
     let max = 0;
     for(let code_pays in Country.all_countries)
     {
@@ -41,13 +41,13 @@ function moreNeighbors()
         {
             if(pays_frontalier.length > max)
             {
-                tableau_pays_max_voisin = {};
-                tableau_pays_max_voisin[code_pays] = pays;
+                tableau_pays_max_voisin = [];
+                tableau_pays_max_voisin.push(code_pays);
                 max = pays_frontalier.length;
             }
             else if(pays_frontalier.length === max)
             {
-                tableau_pays_max_voisin[code_pays] = pays;
+                tableau_pays_max_voisin.push(code_pays);
             }
         }
     }
@@ -55,19 +55,21 @@ function moreNeighbors()
 }
 
 console.log("Les pays avec les plus grand nombre de voisins : ");
-let tab_max_voisin = moreNeighbors();
-let i = 0;
-for(let code_pays in tab_max_voisin)
+console.log(moreNeighbors());
+
+
+function neighborless()
 {
-    let color = "\x1b[" + (random + 31) + "m"; // Calcule le code d'échappement de couleur pour que l'affichage sur la console soit plus lisible
-    console.log(color+"Pays : ");
-    console.log(color+tab_max_voisin[code_pays].toString());
-    console.log(color+"Voisin : ");
-    for(let code_voisin of tab_max_voisin[code_pays]["borders"])
+    let tableau_pays_pas_de_voisins = [];
+    for(let code_pays in Country.all_countries)
     {
-        console.log(color+Country.all_countries[code_voisin].toString());
+        if(Country.all_countries[code_pays]["borders"] === PAS_FRONTALIER)
+        {
+            tableau_pays_pas_de_voisins.push(code_pays);
+        }
     }
-    console.log(color+"--------------------------------------------------------------------");
-    i++;
+    return tableau_pays_pas_de_voisins;
 }
 
+console.log("Pays qui n'ont aucuns voisins : ");
+console.log(neighborless());
