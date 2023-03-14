@@ -73,3 +73,34 @@ function neighborless()
 
 console.log("Pays qui n'ont aucuns voisins : ");
 console.log(neighborless());
+
+function withCommonLanguage() {
+
+    let pays_contient_meme_langues = [];
+
+    let listCountries = Country.all_countries; // récupération de tous les pays
+
+    let pays;
+    let langues_pays;
+    let list_pays_frontalier;
+    for(let code_pays in listCountries) {
+
+        pays = listCountries[code_pays];
+        langues_pays = pays.getLanguages();
+        list_pays_frontalier = pays.getBorders();
+    
+        if(list_pays_frontalier !== undefined) {
+            for(let pays_frontalier of list_pays_frontalier) {
+                for(let languages of pays_frontalier.getLanguages()) {
+                    console.log(languages);
+                }
+            }
+                        
+        }
+    }
+
+    return pays_contient_meme_langues;
+}
+
+console.log("Les pays ayant au moins un voisin parlant l’une de ses langues :");
+console.log(withCommonLanguage());
