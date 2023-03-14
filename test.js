@@ -73,3 +73,37 @@ function neighborless()
 
 console.log("Pays qui n'ont aucuns voisins : ");
 console.log(neighborless());
+
+function moreLanguages()
+{
+    let tableau_pays_max_language = [];
+    let max = 0;
+    for(let code_pays in Country.all_countries)
+    {
+        pays = Country.all_countries[code_pays];
+        pays_languages = pays.getLanguages();
+        if(pays_languages !== undefined)
+        {
+            if(pays_languages.length > max)
+            {
+                tableau_pays_max_language = [];
+                tableau_pays_max_language.push(code_pays);
+                max = pays_languages.length;
+            }
+            else if(pays_languages.length === max)
+            {
+                tableau_pays_max_language.push(code_pays);
+            }
+        }
+    }
+    return tableau_pays_max_language;
+}
+console.log("Le(s) pays qui ont le plus de langues : ");
+let pays_more_languages = moreLanguages();
+for(let code_pays of pays_more_languages)
+{
+    let languages = Country.all_countries[code_pays].getLanguages().map((a) => a.iso639_2);
+    console.log("Pays : " + code_pays);
+    console.log("Languages : ");
+    console.log(languages);
+}
