@@ -86,17 +86,36 @@ function withCommonLanguage() {
     for(let code_pays in listCountries) {
 
         pays = listCountries[code_pays];
-        langues_pays = pays.getLanguages();
+
+        
+
+        let resultatPays = {};
+        resultatPays[pays.translations["en"]] = {};
+
+        let langues_pays = [];
+        for(let langue_pays of pays.getLanguages()) {
+            langues_pays.push(langue_pays.name);
+        }
+
         list_pays_frontalier = pays.getBorders();
     
         if(list_pays_frontalier !== undefined) {
             for(let pays_frontalier of list_pays_frontalier) {
-                for(let languages of pays_frontalier.getLanguages()) {
-                    console.log(languages);
+                for(let langues_pays_frontalier of pays_frontalier.getLanguages()) {
+                    if(langues_pays.includes(langues_pays_frontalier.name)) {
+                        
+                        
+                        if(!resultatPays[pays.translations["en"]].hasOwnProperty(langues_pays_frontalier.name)) {
+                            resultatPays[pays.translations["en"]][langues_pays_frontalier.name] = Array(pays_frontalier.translations["en"]);
+                        } else {
+                            resultatPays[pays.translations["en"]][langues_pays_frontalier.name].push(pays_frontalier.translations["en"]);
+                        }
+                    }
                 }
             }
                         
         }
+        console.log(resultatPays[pays.translations["en"]].valueOf().length);
     }
 
     return pays_contient_meme_langues;
