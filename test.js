@@ -121,37 +121,33 @@ for(let code_pays of pays_more_languages)
 function withoutCommonCurrency() //Retourne les pays qui ne partage pas ses monnaies avec ses voisins
 {
     let tableau_no_common_monney = [];
-    let indice_monnaie;
-    let common;
     for(let code_pays in Country.all_countries)
     {
         let pays = Country.all_countries[code_pays];
         let pays_frontalier = pays.getBorders();
         let pays_monnaies = pays.getCurrencies();
-        if(pays_monnaies !== undefined) //Si le pays possède des pays frontaliers
+        let indice_frontalier = 0;
+        let common = false;
+        while(indice_frontalier < pays_frontalier.length && !(common))
         {
-            indice_monnaie = 0;
-            common = false;//Partir du voisins
-            while((indice_monnaie < pays_monnaies.length) && !(common))
+            let pays_monnaie_frontalier = pays_frontalier[indice_frontalier].getCurrencies();
+            let indice_monnaie = 0;
+            while(indice_monnaie < pays_monnaie_frontalier.length && !(common))
             {
-                let comparaison_common = pays_frontalier.map((a) => a.getCurrencies().map((b) => b === pays_monnaies[indice_monnaie]));
-                console.log(comparaison_common);
-                /*
-                if(comparaison_common.contains(true))
+                if(pays_monnaies.includes(pays_monnaie_frontalier[indice_monnaie]))
                 {
                     common = true;
-                }*/
-                indice_frontalier++;
+                }
+                indice_monnaie++;
             }
-            if(!(common))
-            {
-                tableau_no_common_monney.push(code_pays);
-            }
+            indice_frontalier++;
+        }
+        if(!(common))
+        {
+            tableau_no_common_monney.push(code_pays);
         }
     }
     return tableau_no_common_monney;
-    //Pour chaque voisin tester si il a une monnaie en commun si c'est le cas partir de la boucle et mettre à faux
-    //Sinon mettre a vrai et ajouter le pays 
 }
 console.log("#6-----------------------------------------------");
 console.log("Le(s) pays qui ne partage pas ses monnaies avec les pays voisins : ");
