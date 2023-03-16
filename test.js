@@ -176,5 +176,24 @@ console.log("Les pays trier par ordre décroissant de densité de population : "
 console.log(sortingDecreasingDensity());
 
 
+function moreTopLevelDomains() //Pays possèdant plusieurs top level domain 
+{
+    let tab_pays_most_2_level_domain = [];
+    for(let code_pays in Country.all_countries)
+    {
+        let topLevelDomain = Country.all_countries[code_pays].topLevelDomain;
+        if(topLevelDomain !== undefined)
+        {
+            if(topLevelDomain.length >= 2)
+            {
+                tab_pays_most_2_level_domain.push(code_pays);
+            }
+        }
+    }
+    return tab_pays_most_2_level_domain;
+}
+console.log("#8-----------------------------------------------");
+console.log("Les pays qui possède plusieurs top level domain : ");
+console.log(moreTopLevelDomains());
 //Normal d'avoir des area undefined ? 
 //Est ce que pour la question 6 on a 201 pays ? 
