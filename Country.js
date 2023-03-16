@@ -119,7 +119,7 @@ class Country
     }
     getPopDensity()
     {
-        return this._area !== 0.0 ? this._population/this._area : 0;  //Retourne 0.0 pour eviter la valeur Infinity
+        return this._area !== undefined ? this._population/this._area : 0;  //Retourne 0.0 pour eviter la valeur Infinity
     }
     getBorders()
     {

@@ -195,5 +195,41 @@ function moreTopLevelDomains() //Pays possèdant plusieurs top level domain
 console.log("#8-----------------------------------------------");
 console.log("Les pays qui possède plusieurs top level domain : ");
 console.log(moreTopLevelDomains());
+
+
+function veryLongTrip(nom_pays) //Retourne les pays visitables à partir du pays donnée en paramètre 
+{
+
+
+    let pays_visitable = []; //Pays itéré
+    let pays_visite= [nom_pays]; //Contient les pays que l'on retourne
+    //Récuperation de l'objet du pays 
+    let object_pays = Country.all_countries[nom_pays];
+    //Initialisation des pays visitable 
+    pays_visitable = object_pays.getBorders().map((a) => a.alpha3Code);
+    while(pays_visitable.length > 0)
+    {
+        pays_visite.push(pays_visitable[0]); //J'ajouter l'élément border dans pays_visite
+        for(let pays_frontalier of Country.all_countries[pays_visitable[0]].getBorders().map((a) => a.alpha3Code))
+        {
+            //Récupération de l'object frontalier 
+            let object_frontalier = Country.all_countries[pays_frontalier];
+            if(!(pays_visite.includes(pays_frontalier)) && !(pays_visitable.includes(pays_frontalier)))
+            {
+                pays_visitable.push(pays_frontalier);
+                /*
+                for(let pays_frontalier2 of Country.all_countries[pays_frontalier].getBorders().map((a) => a.alpha3Code))
+                {
+                    
+                }*/
+            }
+        }
+        pays_visitable.splice(0,1);
+    }
+
+    //Si pas besoin du pays de depart faire une suppression dans pays_visite de l'alpha3code du pays d'origine
+    return pays_visite;
+}
+console.log(veryLongTrip("FRA"));
 //Normal d'avoir des area undefined ? 
 //Est ce que pour la question 6 on a 201 pays ? 
