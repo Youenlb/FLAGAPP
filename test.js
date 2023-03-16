@@ -91,7 +91,6 @@ function withCommonLanguage() {
 
         let resultatPays = {};
         resultatPays[pays.translations["en"]] = {};
-
         let langues_pays = [];
         for(let langue_pays of pays.getLanguages()) {
             langues_pays.push(langue_pays.name);
@@ -115,7 +114,10 @@ function withCommonLanguage() {
             }
                         
         }
-        console.log(resultatPays[pays.translations["en"]].valueOf().length);
+
+        if(Object.keys(resultatPays[pays.translations["en"]]).length > 0) {
+            pays_contient_meme_langues.push(resultatPays);
+        }
     }
 
     return pays_contient_meme_langues;
