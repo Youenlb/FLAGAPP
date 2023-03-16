@@ -152,3 +152,29 @@ function withoutCommonCurrency() //Retourne les pays qui ne partage pas ses monn
 console.log("#6-----------------------------------------------");
 console.log("Le(s) pays qui ne partage pas ses monnaies avec les pays voisins : ");
 console.log(withoutCommonCurrency());
+
+function sortingDecreasingDensity() //Retourne les pays par ordre décroissant de densité de population
+{
+    let tab = Country.all_countries;
+    let tab_sort = Object.values(tab).sort(function(a,b)
+    {
+        if(a.getPopDensity() < b.getPopDensity())
+        {
+            return 1;
+        }
+        else if(a.getPopDensity() > b.getPopDensity())
+        {
+            return -1;
+        }
+        return 0;
+    });
+    return tab_sort;
+      
+}
+console.log("#7-----------------------------------------------");
+console.log("Les pays trier par ordre décroissant de densité de population : ");
+console.log(sortingDecreasingDensity());
+
+
+//Normal d'avoir des area undefined ? 
+//Est ce que pour la question 6 on a 201 pays ? 
