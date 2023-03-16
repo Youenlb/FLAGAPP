@@ -217,11 +217,6 @@ function veryLongTrip(nom_pays) //Retourne les pays visitables à partir du pays
             if(!(pays_visite.includes(pays_frontalier)) && !(pays_visitable.includes(pays_frontalier)))
             {
                 pays_visitable.push(pays_frontalier);
-                /*
-                for(let pays_frontalier2 of Country.all_countries[pays_frontalier].getBorders().map((a) => a.alpha3Code))
-                {
-                    
-                }*/
             }
         }
         pays_visitable.splice(0,1);
@@ -230,6 +225,8 @@ function veryLongTrip(nom_pays) //Retourne les pays visitables à partir du pays
     //Si pas besoin du pays de depart faire une suppression dans pays_visite de l'alpha3code du pays d'origine
     return pays_visite;
 }
+console.log("#9-----------------------------------------------");
+console.log("Les pays visitable à partir du pays d'origine : ");
 console.log(veryLongTrip("FRA"));
 //Normal d'avoir des area undefined ? 
 //Est ce que pour la question 6 on a 201 pays ? 
