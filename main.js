@@ -71,3 +71,32 @@ function fill_db()
     }
 }
 fill_db();
+
+function inserer_dans_table() {
+
+    let table_pays = document.getElementById("table_pays");
+
+    let tous_pays = Country.all_countries;
+    
+    // création du document d'un pays
+    let node_pays = document.createElement("tr");
+
+    // création de chaque document d'une valeur d'un pays
+    let nom = document.createTextNode("Allemagne");
+    let node_nom_pays = document.createElement("td");
+    node_nom_pays.appendChild(nom);
+
+    table_pays.appendChild(node_nom_pays);
+
+    for(pays of tous_pays) {
+      
+    }
+}
+
+let texte = document.createTextNode("HELLO");
+let paragraphe = document.createElement("p");
+paragraphe.appendChild(texte);
+
+let body = document.getElementsByTagName("body");
+body.appendChild(paragraphe);
+console.log("bonjour");
