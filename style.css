@@ -1,0 +1,55 @@
+/*
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Population</th>
+            <th>Surface</th>
+            <th>Densité de population</th>
+            <th>Continent d'appartenance</th>
+            <th>Drapeau</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>France</td>
+            <td>67391582</td>
+            <td>640679.0</td>
+            <td>105.187749247</td>
+            <td>Europe</td>
+            <td><img src="https://flagcdn.com/fr.svg" alt="Drapeau"></td>
+        </tr>
+    </tbody>
+</table>
+*/
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+table td {
+    width: 10em;
+}
+
+table th {
+    background-color: #b1eb82;
+}
+
+table tbody {
+    text-align: center;
+    margin: auto;
+}
+
+tbody tr td img {
+    width: 40%;
+    height: auto;
+}
