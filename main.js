@@ -1,3 +1,6 @@
+/**
+ * Instanciation des pays avec Country et insertion des pays dans le tableau de classe de Country
+ */
 function fill_db()
 {
     let key_alpha3code;
