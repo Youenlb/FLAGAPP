@@ -77,12 +77,12 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
     let dict_countries = Country.all_countries;
     for(let code_pays of tab_code_pays)
     {
-        let name_countrie = dict_countries[code_pays].translations["fr"];
         let clone_content_template = document.importNode(template_countrie.content, true);
 
         //Mise à jour de l'id du tr du pays (attribut)
         let tr_pays = clone_content_template.querySelector("tr");
-        tr_pays.setAttribute("id","pays_"+name_countrie);
+        tr_pays.setAttribute("id",code_pays);
+        tr_pays.setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
 
         //Ajout du nom 
         if(dict_countries[code_pays].translations["fr"] !== undefined)
@@ -129,7 +129,7 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
             if(parametre !== PARAM_FLAG) //Si ce n'est pas le parametre flag (image)
             {
                 //On ajoute le contenu du parametre dans td
-                td.setAttribute("id",parametre+name_countrie);
+                td.setAttribute("id",parametre+name_country);
                 td.textContent = dict_countries[code_pays][parametre];
             }
             else //Si c'est le flag
@@ -141,4 +141,9 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         }*/
         document.getElementById(id_table_body_pays).appendChild(clone_content_template);
     }
+}
+
+function afficheDetailsPays(code_pays) {
+    let pays = Country.all_countries[code_pays];
+    console.log(pays);
 }
