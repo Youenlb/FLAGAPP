@@ -1,3 +1,5 @@
+fill_db();
+
 function outsideTheContinent() //Retourne les pays avec au moins un pays frontalier en dehors de son continent
 {
     let tableau_continent_different = [];
