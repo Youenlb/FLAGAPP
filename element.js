@@ -1,6 +1,8 @@
 
 const PAS_FRONTALIER = "Aucun pays frontaliers";
 const PAS_MONNAIE = "Pas de monnaie";
+const PAS_SURFACE = "Indéfini";
+
 var data = 
 [
    {

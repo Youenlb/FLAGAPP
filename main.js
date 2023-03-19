@@ -72,31 +72,73 @@ function fill_db()
 }
 fill_db();
 
-function inserer_dans_table() {
+function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
+{
+    let dict_countries = Country.all_countries;
+    for(let code_pays of tab_code_pays)
+    {
+        let name_countrie = dict_countries[code_pays].translations["fr"];
+        let clone_content_template = document.importNode(template_countrie.content, true);
 
-    let table_pays = document.getElementById("table_pays");
+        //Mise à jour de l'id du tr du pays (attribut)
+        let tr_pays = clone_content_template.querySelector("tr");
+        tr_pays.setAttribute("id","pays_"+name_countrie);
 
-    let tous_pays = Country.all_countries;
-    
-    // création du document d'un pays
-    let node_pays = document.createElement("tr");
+        //Ajout du nom 
+        if(dict_countries[code_pays].translations["fr"] !== undefined)
+        {
+            tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["fr"];
+        }
+        else
+        {
+            tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["en"];
+        }
+        
+        //Ajout population
+        tr_pays.getElementsByClassName("population")[0].textContent = dict_countries[code_pays].population;
 
-    // création de chaque document d'une valeur d'un pays
-    let nom = document.createTextNode("Allemagne");
-    let node_nom_pays = document.createElement("td");
-    node_nom_pays.appendChild(nom);
-
-    table_pays.appendChild(node_nom_pays);
-
-    for(pays of tous_pays) {
-      
+        //Ajout surface
+        if(dict_countries[code_pays].area !== undefined)
+        {
+            tr_pays.getElementsByClassName("area")[0].textContent = dict_countries[code_pays].area;
+        }
+        else
+        {
+            tr_pays.getElementsByClassName("area")[0].textContent = PAS_SURFACE;
+        }
+        //Ajout densite
+        if(dict_countries[code_pays].area !== undefined)
+        {
+            tr_pays.getElementsByClassName("density")[0].textContent = Math.round(dict_countries[code_pays].getPopDensity()*10)/10;
+        }
+        else
+        {
+            tr_pays.getElementsByClassName("density")[0].textContent = PAS_SURFACE;
+        }
+        
+        //Ajout continent
+        tr_pays.getElementsByClassName("region")[0].textContent = dict_countries[code_pays].region;
+        //Ajout flag
+        tr_pays.getElementsByClassName("flag")[0].querySelector("img").setAttribute("src",dict_countries[code_pays].flag);
+        
+        /*
+        for(let indice_td in td_pays)
+        {
+            let td = td_pays[indice_td];
+            let parametre = tab_parametre[indice_td];
+            if(parametre !== PARAM_FLAG) //Si ce n'est pas le parametre flag (image)
+            {
+                //On ajoute le contenu du parametre dans td
+                td.setAttribute("id",parametre+name_countrie);
+                td.textContent = dict_countries[code_pays][parametre];
+            }
+            else //Si c'est le flag
+            {
+                //On met le contenu du parametre dans le src de l'img de td
+                let img = td.querySelector("img");
+                img.setAttribute("src",dict_countries[code_pays][parametre]);
+            }
+        }*/
+        document.getElementById(id_table_body_pays).appendChild(clone_content_template);
     }
 }
-
-let texte = document.createTextNode("HELLO");
-let paragraphe = document.createElement("p");
-paragraphe.appendChild(texte);
-
-let body = document.getElementsByTagName("body");
-body.appendChild(paragraphe);
-console.log("bonjour");

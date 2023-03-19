@@ -8,14 +8,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <script src="element.js"></script>
-    <script src="Country.js"></script>
-    <script src="Currency.js"></script>
-    <script src="Language.js"></script>
-    <script src="main.js"></script>
-    <script src="test.js"></script>
-    <table id="table_pays">
-        <thead>
+    <table id="table-pays">
+        <thead id="intitule-table-pays">
             <tr>
                 <th>Nom</th>
                 <th>Population</th>
@@ -25,17 +19,31 @@
                 <th>Drapeau</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>NOM</td>
-                <td>POP</td>
-                <td>SUR</td>
-                <td>DEN</td>
-                <td>REG</td>
-                <td>URL</td>
-            </tr>
+        <tbody id="contenu-table-pays">
+
         </tbody>
     </table>
-    
+    <template id="un_pays">
+        <tr>
+            <td class="name"></td>
+            <td class="population"></td>
+            <td class="area"></td>
+            <td class="density"></td>
+            <td class="region"></td>
+            <td class="flag"><img alt="Drapeau"></td>
+        </tr>
+    </template>
+    <script src="element.js"></script>
+    <script src="Country.js"></script>
+    <script src="Currency.js"></script>
+    <script src="Language.js"></script>
+    <script src="main.js"></script>
+    <script>
+        fill_db();
+        const ID_TBODY_PAYS = "contenu-table-pays"
+        let template = document.getElementById("un_pays");
+        let tab_code_pays = Object.keys(Country.all_countries);
+        addAllCountries(tab_code_pays,template,ID_TBODY_PAYS);
+    </script>
 </body>
 </html>
