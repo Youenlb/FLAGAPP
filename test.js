@@ -126,7 +126,6 @@ function withCommonLanguage() //Retourne les pays ayant au moins un voisin parla
     let listCountries = Country.all_countries; // récupération de tous les pays
 
     let pays;
-    let langues_pays;
     let list_pays_frontalier;
     for(let code_pays in listCountries) {
 
@@ -278,6 +277,29 @@ function veryLongTrip(nom_pays) //Retourne les pays visitables à partir du pays
     //Si pas besoin du pays de depart faire une suppression dans pays_visite de l'alpha3code du pays d'origine
     return pays_visite;
 }
+function getCountryWithMostVeryLongTrip() //Retourne le(s) pays avec lequel on peut visiter le plus de pays 
+{
+    let tableau_pays_max_trip = [];
+    let max = 0;
+    for(let code_pays in Country.all_countries)
+    {
+        let pays_trip = veryLongTrip(code_pays);
+        if(pays_trip.length > max)
+        {
+            tableau_pays_max_trip = [];
+            tableau_pays_max_trip.push(code_pays);
+            max = pays_trip.length;
+        }
+        else if(pays_trip.length === max)
+        {
+            tableau_pays_max_trip.push(code_pays);
+        }
+    }
+    return tableau_pays_max_trip;
+}
 console.log("#9-----------------------------------------------");
-console.log("Les pays visitable à partir du pays d'origine : ");
+console.log("Les pays visitable à partir du pays d'origine France : ");
 console.log(veryLongTrip("FRA"));
+let list_most_very_long_trip_country = getCountryWithMostVeryLongTrip();
+console.log("Liste des pays que l'on peut visiter à partie de "+list_most_very_long_trip_country[0]+" qui est un des pays avec le plus de pays visitable");
+console.log(veryLongTrip(list_most_very_long_trip_country[0]));
