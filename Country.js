@@ -1,6 +1,7 @@
 class Country
 {
-    static all_countries = {};
+    static all_countries = {}; // tous les pays dans une variable de classe
+
     constructor(alpha3Code,area,borders, capital, region, demonym, flag, translations,population,topLevelDomain,currencies,languages)
     {
         this._alpha3Code = alpha3Code;
