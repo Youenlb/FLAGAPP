@@ -117,10 +117,20 @@ class Country
     {
         return "\nAlpha3Code : " + this.alpha3Code + "\nArea : " + this.area + "\nCountry : "+this.translations["en"]+"\nCapital : " + this.capital + "\nRegion : " + this.region + "\nPopulation : " + this.population+"\n\n";
     }
+
+    /**
+     * Permet de récupérer la densité de population du pays
+     * @returns la densité de population si la surface du pays est définie, sinon 0
+     */
     getPopDensity()
     {
         return this._area !== undefined ? this._population/this._area : 0;  //Retourne 0.0 pour eviter la valeur Infinity
     }
+
+    /**
+     * Permet de récupérer les pays frontaliers du pays
+     * @returns tableau de pays frontaliers s'il y en a, sinon tableau vide
+     */
     getBorders()
     {
         let tableau_pays_frontaliers = [];
@@ -133,6 +143,11 @@ class Country
         }
         return tableau_pays_frontaliers; 
     }
+
+    /**
+     * Permet de récupérer la monnaie du pays
+     * @returns tableau de la monnaie du pays
+     */
     getCurrencies()
     {
         let tableau_currencies = [];
@@ -142,6 +157,11 @@ class Country
         }
         return tableau_currencies;
     }
+
+    /**
+     * Permet de récupérer les langages du pays
+     * @returns tableau des langages du pays
+     */
     getLanguages()
     {
         let tableau_languages = [];
