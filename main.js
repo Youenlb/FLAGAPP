@@ -82,7 +82,6 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         //Mise à jour de l'id du tr du pays (attribut)
         let tr_pays = clone_content_template.querySelector("tr");
         tr_pays.setAttribute("id",code_pays);
-        tr_pays.setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
 
         //Ajout du nom 
         if(dict_countries[code_pays].translations["fr"] !== undefined)
@@ -93,9 +92,11 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         {
             tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["en"];
         }
+        tr_pays.getElementsByClassName("name")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
         
         //Ajout population
         tr_pays.getElementsByClassName("population")[0].textContent = dict_countries[code_pays].population;
+        tr_pays.getElementsByClassName("population")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
 
         //Ajout surface
         if(dict_countries[code_pays].area !== undefined)
@@ -106,6 +107,8 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         {
             tr_pays.getElementsByClassName("area")[0].textContent = PAS_SURFACE;
         }
+        tr_pays.getElementsByClassName("area")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
+
         //Ajout densite
         if(dict_countries[code_pays].area !== undefined)
         {
@@ -115,12 +118,16 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         {
             tr_pays.getElementsByClassName("density")[0].textContent = PAS_SURFACE;
         }
+        tr_pays.getElementsByClassName("density")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
         
         //Ajout continent
         tr_pays.getElementsByClassName("region")[0].textContent = dict_countries[code_pays].region;
+        tr_pays.getElementsByClassName("region")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
+
         //Ajout flag
         tr_pays.getElementsByClassName("flag")[0].querySelector("img").setAttribute("src",dict_countries[code_pays].flag);
-        
+        tr_pays.getElementsByClassName("flag")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays + "\",\"" + dict_countries[code_pays].flag + "\")");
+
         /*
         for(let indice_td in td_pays)
         {
@@ -143,7 +150,11 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
     }
 }
 
-function afficheDetailsPays(code_pays) {
-    let pays = Country.all_countries[code_pays];
-    console.log(pays);
+function afficheDetailsPays(code_pays, flag = undefined) {
+    if(flag === undefined) { // affiche les détails du pays
+        let pays = Country.all_countries[code_pays];
+        console.log(pays);
+    } else { // affiche le drapeau
+        console.log(flag);
+    }
 }
