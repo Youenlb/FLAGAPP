@@ -76,12 +76,11 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
     let dict_countries = Country.all_countries;
     for(let code_pays of tab_code_pays)
     {
-        let name_countrie = dict_countries[code_pays].translations["fr"];
         let clone_content_template = document.importNode(template_countrie.content, true);
 
         //Mise à jour de l'id du tr du pays (attribut)
         let tr_pays = clone_content_template.querySelector("tr");
-        tr_pays.setAttribute("id","pays_"+name_countrie);
+        tr_pays.setAttribute("id",code_pays);
 
         //Ajout du nom 
         if(dict_countries[code_pays].translations["fr"] !== undefined)
@@ -92,9 +91,11 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         {
             tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["en"];
         }
+        tr_pays.getElementsByClassName("name")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
         
         //Ajout population
         tr_pays.getElementsByClassName("population")[0].textContent = dict_countries[code_pays].population;
+        tr_pays.getElementsByClassName("population")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
 
         //Ajout surface
         if(dict_countries[code_pays].area !== undefined)
@@ -105,13 +106,27 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         {
             tr_pays.getElementsByClassName("area")[0].textContent = PAS_SURFACE;
         }
+        tr_pays.getElementsByClassName("area")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+
         //Ajout densite
-        tr_pays.getElementsByClassName("density")[0].textContent = Math.round(dict_countries[code_pays].getPopDensity()*10)/10;
+        if(dict_countries[code_pays].area !== undefined)
+        {
+            tr_pays.getElementsByClassName("density")[0].textContent = Math.round(dict_countries[code_pays].getPopDensity()*10)/10;
+        }
+        else
+        {
+            tr_pays.getElementsByClassName("density")[0].textContent = PAS_SURFACE;
+        }
+        tr_pays.getElementsByClassName("density")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+        
         //Ajout continent
         tr_pays.getElementsByClassName("region")[0].textContent = dict_countries[code_pays].region;
+        tr_pays.getElementsByClassName("region")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+
         //Ajout flag
         tr_pays.getElementsByClassName("flag")[0].querySelector("img").setAttribute("src",dict_countries[code_pays].flag);
-        
+        tr_pays.getElementsByClassName("flag")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays + "\",\"" + dict_countries[code_pays].flag + "\")");
+
         /*
         for(let indice_td in td_pays)
         {
@@ -120,7 +135,7 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
             if(parametre !== PARAM_FLAG) //Si ce n'est pas le parametre flag (image)
             {
                 //On ajoute le contenu du parametre dans td
-                td.setAttribute("id",parametre+name_countrie);
+                td.setAttribute("id",parametre+name_country);
                 td.textContent = dict_countries[code_pays][parametre];
             }
             else //Si c'est le flag
@@ -133,35 +148,92 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         document.getElementById(id_table_body_pays).appendChild(clone_content_template);
     }
 }
-let compteur_countries = 0;
+let compteur_countries = 0; //Contient le nombre de pays afficher dans l'état de la pagination (50 pour 50 pays afficher sur les 2 pages)
+let compteur_page = 0;
 function onClickSuivant()
 {
-    console.log("test");
+    console.log("suivant");
+    //Variable
+    let dict_countries = Country.all_countries; //Dictionnaire des pays
+    let tab_code_pays = Object.keys(dict_countries); //Liste des alpha3code des pays
+    let tab_countries; //Tableau contenant les pays qui vont être ajouter dans le tableau
+    let longueur_tableau = Object.keys(dict_countries).length; //Longueur du dictionnaire
+
+    //Récupération des 25 (ou moins) éléments que l'on souhaite afficher
+    if(compteur_countries + NB_PAYS_PAR_PAGE <= longueur_tableau) //Si on peux encore ajouter NB_PAYS_PAR_PAGE (on rentre toujours dans cette condition pour la longueur du tableau de pays est un multiple de NB_PAYS_PAR_PAGE)
+    {
+        tab_countries = tab_code_pays.slice(compteur_countries,compteur_countries + NB_PAYS_PAR_PAGE); //On recupere les pays suivant que l'on va ajouter
+        compteur_countries+=NB_PAYS_PAR_PAGE; //On ajoute NB_PAYS_PAR_PAGE au compteur de pays
+    }
+    else //Si on ne peux pas encore ajouter NB_PAYS_PAR_PAGE (ce cas arrive pour la dernière page de la pagination quand la longueur du tableau des pays n'est pas un multiple de NB_PAYS_PAR_PAGE)
+    {
+        tab_countries = tab_code_pays.slice(compteur_countries,tab_code_pays.length); //On ajoute les pays restant dans la page
+        compteur_countries+=tab_code_pays.length-compteur_countries;
+    }
+    if(compteur_countries > NB_PAYS_PAR_PAGE) //On ajoute l'écouteur sur le bouton précédent, si on ne se trouve pas sur la première page
+    {
+        document.getElementById("bt_precedent").addEventListener("click",onClickPrecedent);
+    }
+    if(compteur_countries === longueur_tableau) //On enleve l'écouteur sur le bouton suivant, si on se trouve sur la dernière page 
+    {
+        document.getElementById("bt_suivant").removeEventListener("click",onClickSuivant); //Enleve l'ecouteur pour eviter les erreursé
+    }
+    compteur_page++;
+    //Suppression du contenu présent dans la table
+    let tbody_table_pays = document.getElementById(ID_TBODY_PAYS);
+    tbody_table_pays.innerHTML = "";
+
+    //Ajout des pays dans la page
+    let template_country = document.getElementById("un_pays");
+    addAllCountries(tab_countries,template_country,ID_TBODY_PAYS);
+    
+    //Update du numéro de page 
+    document.getElementById("num_page").textContent = "Page n°"+compteur_page;
+}
+function onClickPrecedent()
+{
+    console.log("precedent");
     //Tableau all_coutries
     let dict_countries = Country.all_countries;
     let tab_code_pays = Object.keys(dict_countries);
     let tab_countries;
+    let longueur_tableau = Object.keys(dict_countries).length;
+
     //Récupération des 25 (ou moins) éléments que l'on souhaite afficher
-    if(compteur_countries + 25 <= Object.keys(dict_countries).length) //Si on peux ajouter 25
+    if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
     {
-        tab_countries = tab_code_pays.slice(compteur_countries,compteur_countries + 25);
-        compteur_countries+=25;
+        compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
+        tab_countries = tab_code_pays.slice(compteur_countries-NB_PAYS_PAR_PAGE,compteur_countries);
+        //document.getElementById("bt_suivant").removeEventListener("click",onClickSuivant);
     }
-    else //Si on ne peux pas ajouter 25 car la longueur du tableau n'est pas un multiple de 25
+    else //Si la page est un multiple de NB_PAYS_PAR_PAGE
     {
-        tab_countries = tab_code_pays.slice(compteur_countries,tab_code_pays.length);
-        compteur_countries+=tab_code_pays.length-compteur_countries;
+        compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
+        tab_countries = tab_code_pays.slice(compteur_countries-NB_PAYS_PAR_PAGE,compteur_countries);
     }
+    if(compteur_countries === NB_PAYS_PAR_PAGE) //On enleve l'ecouteur sur le bouton précédent si on se trouve sur la première page
+    {
+        document.getElementById("bt_precedent").removeEventListener("click",onClickPrecedent);
+    }
+    if(compteur_countries < longueur_tableau) //On ajoute l'écouteur sur le bouton suivant si on se trouve sur l'avant dernière page (pour contrebalancer le suppression de l'écouteur pour le bouton suivant quand on est sur la dernière page dans la fonction onClickSuivant())
+    {
+        document.getElementById("bt_suivant").addEventListener("click",onClickSuivant);
+    }
+    compteur_page--;
     //Suppression du contenu présent dans la table
     let tbody_table_pays = document.getElementById(ID_TBODY_PAYS);
     tbody_table_pays.innerHTML = "";
+
+    //Ajout des pays dans la page
     let template_country = document.getElementById("un_pays");
     addAllCountries(tab_countries,template_country,ID_TBODY_PAYS);
-    //slice entre compteur et compteur + 25 (-1 ?) si compteur+25 <= tab.length
-    //slice en prenant seulement ce qui reste rentre compteur et tab.length
-    //remove les tr présent dans le tableau (avec un filtrer map ?), des cas d'erreur à prendre en compte ??? 
-    //afficher la liste en utilisant la fonction de la v1 en indiquant le tableau slice
 
+    //Update du numéro de page 
+    document.getElementById("num_page").textContent = "Page n°"+compteur_page;
 }
 //modifier la structure des dossiers sur git
 //Pas moyen d'automatiser avec une boucle ?? pour l'ajout de valeurs dans les td
+
+//Grisage bouton
+//Modifier suppression du contenu pour faire correspondre au nouveau id
+//Erreur lors de l'ajout de plusieurs addeventlistener sur le même bouton ? 
