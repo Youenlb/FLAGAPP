@@ -92,11 +92,11 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         {
             tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["en"];
         }
-        tr_pays.getElementsByClassName("name")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
+        tr_pays.getElementsByClassName("name")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
         
         //Ajout population
         tr_pays.getElementsByClassName("population")[0].textContent = dict_countries[code_pays].population;
-        tr_pays.getElementsByClassName("population")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
+        tr_pays.getElementsByClassName("population")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
 
         //Ajout surface
         if(dict_countries[code_pays].area !== undefined)
@@ -107,7 +107,7 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         {
             tr_pays.getElementsByClassName("area")[0].textContent = PAS_SURFACE;
         }
-        tr_pays.getElementsByClassName("area")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
+        tr_pays.getElementsByClassName("area")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
 
         //Ajout densite
         if(dict_countries[code_pays].area !== undefined)
@@ -118,15 +118,15 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         {
             tr_pays.getElementsByClassName("density")[0].textContent = PAS_SURFACE;
         }
-        tr_pays.getElementsByClassName("density")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
+        tr_pays.getElementsByClassName("density")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
         
         //Ajout continent
         tr_pays.getElementsByClassName("region")[0].textContent = dict_countries[code_pays].region;
-        tr_pays.getElementsByClassName("region")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays+ "\")");
+        tr_pays.getElementsByClassName("region")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
 
         //Ajout flag
         tr_pays.getElementsByClassName("flag")[0].querySelector("img").setAttribute("src",dict_countries[code_pays].flag);
-        tr_pays.getElementsByClassName("flag")[0].setAttribute("onclick", "afficheDetailsPays(\""+ code_pays + "\",\"" + dict_countries[code_pays].flag + "\")");
+        tr_pays.getElementsByClassName("flag")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays + "\",\"" + dict_countries[code_pays].flag + "\")");
 
         /*
         for(let indice_td in td_pays)
@@ -150,11 +150,61 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
     }
 }
 
-function afficheDetailsPays(code_pays, flag = undefined) {
-    if(flag === undefined) { // affiche les détails du pays
-        let pays = Country.all_countries[code_pays];
-        console.log(pays);
-    } else { // affiche le drapeau
-        console.log(flag);
+var clic_ligne_active = true;
+
+function afficheDetailsOuDrapeauPays(code_pays, flag = undefined) {
+    if(clic_ligne_active) {
+        clic_ligne_active = false;
+        if(flag === undefined) { // affiche les détails du pays
+            let pays = Country.all_countries[code_pays];
+
+            document.getElementById("details").style.visibility = "visible";
+            
+            if(pays.translations["fr"] !== undefined) {
+                document.getElementById("details_name").textContent = pays.translations["fr"];
+            } else {
+                document.getElementById("details_name").textContent = pays.translations["en"];
+            }
+
+            document.getElementById("details_flag").setAttribute("src", pays.flag);
+    
+            document.getElementById("details_capital").textContent = pays.capital;
+
+            document.getElementById("details_region").textContent = pays.region;
+    
+            document.getElementById("details_population").textContent = pays.population + " habitants";
+
+
+            if(pays.area !== undefined) {
+                document.getElementById("details_area").textContent = pays.area + " km²";
+            } else {
+                document.getElementById("details_area").textContent = "Indéfini";
+            }
+            
+            if(pays.area !== undefined)
+            {
+                document.getElementById("details_density").textContent = Math.round(pays.getPopDensity()*10)/10  + " habitants/km²";
+            } else {
+                document.getElementById("details_density").textContent = "Indéfini";
+            }
+            
+            document.getElementById("details_currencies").textContent = pays.currencies;
+    
+        } else { // affiche le drapeau en grand
+            document.getElementById("support_flag").style.visibility = "visible";
+
+            document.getElementById("big_flag").setAttribute("src", flag);
+        }
     }
+    
+}
+
+function fermerDetails() {
+    document.getElementById("details").style.visibility = "hidden";
+    clic_ligne_active = true;
+}
+
+function fermerDrapeau() {
+    document.getElementById("support_flag").style.visibility = "hidden";
+    clic_ligne_active = true;
 }

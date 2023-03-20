@@ -33,6 +33,46 @@
             <td class="flag"><img alt="Drapeau"></td>
         </tr>
     </template>
+
+    <div id="details">
+        <p id="details_name">France</p>
+        <img id="details_flag" alt="drapeau">
+        <table>
+            <tbody>
+              <tr>
+                <th scope="row">Capitale :</th>
+                <td id="details_capital"></td>
+              </tr>
+              <tr>
+                <th scope="row">Région :</th>
+                <td id="details_region"></td>
+              </tr>
+              <tr>
+                <th scope="row">Population :</th>
+                <td id="details_population"></td>
+              </tr>
+              <tr>
+                <th scope="row">Superficie :</th>
+                <td id="details_area"></td>
+              </tr>
+              <tr>
+                <th scope="row">Densité de population :</th>
+                <td id="details_density"></td>
+              </tr>
+              <tr>
+                <th scope="row">Monnaie utilisée :</th>
+                <td id="details_currencies"></td>
+              </tr>
+            </tbody>
+          </table>
+          <button onclick="fermerDetails()">Fermer</button>
+    </div>
+
+    <div id="support_flag">
+        <img alt="drapeau" id="big_flag">
+        <button onclick="fermerDrapeau()">Fermer</button>
+    </div>
+
     <script src="element.js"></script>
     <script src="Country.js"></script>
     <script src="Currency.js"></script>
