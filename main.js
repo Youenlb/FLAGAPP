@@ -188,7 +188,11 @@ function afficheDetailsOuDrapeauPays(code_pays, flag = undefined) {
                 document.getElementById("details_density").textContent = "Indéfini";
             }
             
-            document.getElementById("details_currencies").textContent = pays.currencies;
+            if(pays.currencies[0] !== undefined) {
+                document.getElementById("details_currencies").textContent = pays.currencies;
+            } else {
+                document.getElementById("details_currencies").textContent = "Aucune monnaie";
+            }
     
         } else { // affiche le drapeau en grand
             document.getElementById("support_flag").style.visibility = "visible";
