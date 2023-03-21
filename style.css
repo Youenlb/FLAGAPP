@@ -1,28 +1,3 @@
-/*
-<table>
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Population</th>
-            <th>Surface</th>
-            <th>Densité de population</th>
-            <th>Continent d'appartenance</th>
-            <th>Drapeau</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>France</td>
-            <td>67391582</td>
-            <td>640679.0</td>
-            <td>105.187749247</td>
-            <td>Europe</td>
-            <td><img src="https://flagcdn.com/fr.svg" alt="Drapeau"></td>
-        </tr>
-    </tbody>
-</table>
-*/
-
 body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
@@ -31,6 +6,7 @@ body {
 
 #table-pays {
     border-collapse: collapse;
+    margin: 30px auto;
 }
 
 #table-pays th, #table-pays td {
@@ -43,7 +19,7 @@ body {
 }
 
 #table-pays th {
-    background-color: #b1eb82;
+    background-color: rgba(209, 209, 209, 0.90);;
 }
 
 #table-pays tbody {
@@ -56,40 +32,44 @@ body {
     height: auto;
 }
 
-#details {
+#details, #support_flag {
     visibility: hidden;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
-    padding: 4em;
+    padding: 0 70px 20px 70px;
     flex-direction: column;
     align-items: center;
     width: 70%;
     height: auto;
     background-color: rgba(209, 209, 209, 0.90);
+}
+
+#details p {
+    font-size: 2em;
 }
 
 #details img {
     width: 20%;
+    padding-bottom: 20px;
 }
 
-#support_flag {
-    visibility: hidden;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    padding: 4em;
-    flex-direction: column;
-    align-items: center;
-    width: 70%;
-    height: auto;
-    background-color: rgba(209, 209, 209, 0.90);
+#details table {
+    padding-bottom: 20px;
+}
+
+#details th {
+    text-align: left;
+    padding: 5px;
+}
+
+button {
+    padding: 5px 30px;
 }
 
 #support_flag img {
     width: 70%;
+    padding: 70px 70px 30px 70px;
 }
