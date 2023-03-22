@@ -72,9 +72,10 @@ function fill_db()
 }
 fill_db();
 
+var dict_countries = Country.all_countries; //Dictionnaire des pays
+
 function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
 {
-    let dict_countries = Country.all_countries;
     for(let code_pays of tab_code_pays)
     {
         let clone_content_template = document.importNode(template_countrie.content, true);
@@ -156,7 +157,6 @@ function onClickSuivant()
 {
     console.log("suivant");
     //Variable
-    let dict_countries = Country.all_countries; //Dictionnaire des pays
     let tab_code_pays = Object.keys(dict_countries); //Liste des alpha3code des pays
     let tab_countries; //Tableau contenant les pays qui vont être ajouter dans le tableau
     let longueur_tableau = Object.keys(dict_countries).length; //Longueur du dictionnaire
@@ -196,7 +196,6 @@ function onClickPrecedent()
 {
     console.log("precedent");
     //Tableau all_coutries
-    let dict_countries = Country.all_countries;
     let tab_code_pays = Object.keys(dict_countries);
     let tab_countries;
     let longueur_tableau = Object.keys(dict_countries).length;
@@ -333,15 +332,18 @@ function trierPaysSelonColonne(colonne) {
             return 0;
         });
         
-        let template_country = document.getElementById("un_pays");
-        //Ajout des pays dans la page
-        let tab_code_pays = [];
+        // tableau temporaire pour recréer le dictionnaire des pays trié
+        let tab_tmp_pays= [];
 
-        for(pays_code of tab_sort) {
-            tab_code_pays.push(pays_code.alpha3Code);
+        for(pays of tab_sort) {
+            tab_tmp_pays[pays.alpha3Code] = dict_countries[pays.alpha3Code];
         }
 
-        addAllCountries(tab_code_pays,template_country,ID_TBODY_PAYS);
+        dict_countries = tab_tmp_pays;
+
+        onClickSuivant(); //Initialisation de la liste des pays
+        onClickPrecedent();
+
     } else if(colonne !== colonneTriee && colonne === "population") {
         colonneTriee = "population";
 
@@ -360,14 +362,16 @@ function trierPaysSelonColonne(colonne) {
             return 0;
         });
         
-        //Ajout des pays dans la page
-        let template_country = document.getElementById("un_pays");
+        // tableau temporaire pour recréer le dictionnaire des pays trié
+        let tab_tmp_pays= [];
 
-        let tab_code_pays = [];
-
-        for(pays_code of tab_sort) {
-            tab_code_pays.push(pays_code.alpha3Code);
+        for(pays of tab_sort) {
+            tab_tmp_pays[pays.alpha3Code] = dict_countries[pays.alpha3Code];
         }
-        addAllCountries(tab_code_pays,template_country,ID_TBODY_PAYS);
+
+        dict_countries = tab_tmp_pays;
+
+        onClickSuivant(); //Initialisation de la liste des pays
+        onClickPrecedent();
     } 
 } 
