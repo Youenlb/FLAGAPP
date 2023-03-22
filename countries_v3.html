@@ -23,6 +23,11 @@
 
         </tbody>
     </table>
+    <div id="navigation">
+      <button id="bt_precedent">PRÉC</button>
+      <p id="num_page"></p>
+      <button id="bt_suivant">SUIV</button>
+    </div>
     <template id="un_pays">
         <tr>
             <td class="name"></td>
@@ -80,10 +85,14 @@
     <script src="main.js"></script>
     <script>
         fill_db();
-        const ID_TBODY_PAYS = "contenu-table-pays"
-        let template = document.getElementById("un_pays");
-        let tab_code_pays = Object.keys(Country.all_countries);
-        addAllCountries(tab_code_pays,template,ID_TBODY_PAYS);
-    </script>
+
+        onClickSuivant(); //Initialisation de la liste des pays
+
+        //Ajout de l'écouteur sur le bouton suivant
+        let bt_suivant = document.getElementById("bt_suivant"); //Récupération de l'élément
+        bt_suivant.addEventListener("click",onClickSuivant); //Ajout de l'écouteur
+        
+        //grisage
+      </script>
 </body>
 </html>

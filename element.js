@@ -2,6 +2,8 @@
 const PAS_FRONTALIER = "Aucun pays frontaliers";
 const PAS_MONNAIE = "Pas de monnaie";
 const PAS_SURFACE = "Indéfini";
+const ID_TBODY_PAYS = "contenu-table-pays"
+const NB_PAYS_PAR_PAGE = 25;
 
 var data = 
 [
