@@ -15,16 +15,18 @@ body {
 }
 
 #table-pays td {
-    width: 10em;
+    width: 170px;
+    height: 75px;
 }
 
 #table-pays th {
-    background-color: rgba(209, 209, 209, 0.90);;
+    background-color: rgba(209, 209, 209, 0.90);
 }
 
 #table-pays tbody {
     text-align: center;
     margin: auto;
+    background-color: rgba(230, 230, 230, 0.8);
 }
 
 #table-pays tbody tr td img {

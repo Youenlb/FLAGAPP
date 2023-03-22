@@ -311,3 +311,63 @@ function fermerDrapeau() {
     document.getElementById("support_flag").style.visibility = "hidden";
     clic_ligne_active = true;
 }
+
+var colonneTriee = "";
+
+function trierPaysSelonColonne(colonne) {
+    if(colonne !== colonneTriee && colonne === "name") {
+        colonneTriee = "name";
+
+        let tab = Country.all_countries;
+        // trie sur la densité
+        let tab_sort = Object.values(tab).sort(function(a,b)
+        {
+            if(a.name < b.name)
+            {
+                return 1;
+            }
+            else if(a.name > b.name)
+            {
+                return -1;
+            }
+            return 0;
+        });
+        
+        let template_country = document.getElementById("un_pays");
+        //Ajout des pays dans la page
+        let tab_code_pays = [];
+
+        for(pays_code of tab_sort) {
+            tab_code_pays.push(pays_code.alpha3Code);
+        }
+
+        addAllCountries(tab_code_pays,template_country,ID_TBODY_PAYS);
+    } else if(colonne !== colonneTriee && colonne === "population") {
+        colonneTriee = "population";
+
+        let tab = Country.all_countries;
+        // trie sur la densité
+        let tab_sort = Object.values(tab).sort(function(a,b)
+        {
+            if(a.population < b.population)
+            {
+                return 1;
+            }
+            else if(a.population > b.population)
+            {
+                return -1;
+            }
+            return 0;
+        });
+        
+        //Ajout des pays dans la page
+        let template_country = document.getElementById("un_pays");
+
+        let tab_code_pays = [];
+
+        for(pays_code of tab_sort) {
+            tab_code_pays.push(pays_code.alpha3Code);
+        }
+        addAllCountries(tab_code_pays,template_country,ID_TBODY_PAYS);
+    } 
+} 

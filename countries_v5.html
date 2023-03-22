@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <table id="table-pays">
+        <thead id="intitule-table-pays">
+            <tr>
+                <th onclick="trierPaysSelonColonne('name')">Nom</th>
+                <th onclick="trierPaysSelonColonne('population')">Population</th>
+                <th onclick="trierPaysSelonColonne('area')">Surface</th>
+                <th onclick="trierPaysSelonColonne('density')">Densité de population</th>
+                <th onclick="trierPaysSelonColonne('region')">Continent d'appartenance</th>
+                <th>Drapeau</th>
+            </tr>
+        </thead>
+        <tbody id="contenu-table-pays">
+
+        </tbody>
+    </table>
+    <div id="navigation">
+      <button id="bt_precedent">PRÉC</button>
+      <p id="num_page"></p>
+      <button id="bt_suivant">SUIV</button>
+    </div>
+    <template id="un_pays">
+        <tr>
+            <td class="name"></td>
+            <td class="population"></td>
+            <td class="area"></td>
+            <td class="density"></td>
+            <td class="region"></td>
+            <td class="flag"><img alt="Drapeau"></td>
+        </tr>
+    </template>
+
+    <div id="details">
+        <p id="details_name">France</p>
+        <img id="details_flag" alt="drapeau">
+        <table>
+            <tbody>
+              <tr>
+                <th scope="row">Capitale :</th>
+                <td id="details_capital"></td>
+              </tr>
+              <tr>
+                <th scope="row">Région :</th>
+                <td id="details_region"></td>
+              </tr>
+              <tr>
+                <th scope="row">Population :</th>
+                <td id="details_population"></td>
+              </tr>
+              <tr>
+                <th scope="row">Superficie :</th>
+                <td id="details_area"></td>
+              </tr>
+              <tr>
+                <th scope="row">Densité de population :</th>
+                <td id="details_density"></td>
+              </tr>
+              <tr>
+                <th scope="row">Monnaie utilisée :</th>
+                <td id="details_currencies"></td>
+              </tr>
+            </tbody>
+          </table>
+          <button onclick="fermerDetails()">Fermer</button>
+    </div>
+
+    <div id="support_flag">
+        <img alt="drapeau" id="big_flag">
+        <button onclick="fermerDrapeau()">Fermer</button>
+    </div>
+
+    <script src="element.js"></script>
+    <script src="Country.js"></script>
+    <script src="Currency.js"></script>
+    <script src="Language.js"></script>
+    <script src="main.js"></script>
+    <script>
+        fill_db();
+
+        onClickSuivant(); //Initialisation de la liste des pays
+
+        //Ajout de l'écouteur sur le bouton suivant
+        let bt_suivant = document.getElementById("bt_suivant"); //Récupération de l'élément
+        bt_suivant.addEventListener("click",onClickSuivant); //Ajout de l'écouteur
+        
+        //grisage
+      </script>
+</body>
+</html>
