@@ -236,35 +236,46 @@ function onClickPrecedent()
 
 var clic_ligne_active = true;
 
+/**
+ * Permet d'afficher les détails ou le drapeaud d'un pays. 
+ * Le code pays est récupéré grâce à l'attribut onclick se trouvant sur chaque ligne des pays.
+ * Même chose pour le drapeau avec le lien.
+ * @param {*} code_pays Code du pays
+ * @param {*} flag lien du drapeau du pays
+ */
 function afficheDetailsOuDrapeauPays(code_pays, flag = undefined) {
-    if(clic_ligne_active) {
+    if(clic_ligne_active) { // seulement s'il n'y a pas l'affichage des détails ou drapeau d'activé
         clic_ligne_active = false;
         if(flag === undefined) { // affiche les détails du pays
             let pays = Country.all_countries[code_pays];
 
-            document.getElementById("details").style.visibility = "visible";
-            
+            // récupération du nom du pays
             if(pays.translations["fr"] !== undefined) {
                 document.getElementById("details_name").textContent = pays.translations["fr"];
             } else {
                 document.getElementById("details_name").textContent = pays.translations["en"];
             }
 
+            // récupération du drapeau du pays
             document.getElementById("details_flag").setAttribute("src", pays.flag);
-    
+
+            // récupération de la capitale du pays
             document.getElementById("details_capital").textContent = pays.capital;
 
+            // récupération du continent du pays
             document.getElementById("details_region").textContent = pays.region;
     
+            // récupération du nombre d'habitants du pays
             document.getElementById("details_population").textContent = pays.population + " habitants";
 
-
+            // récupération de la surface du pays
             if(pays.area !== undefined) {
                 document.getElementById("details_area").textContent = pays.area + " km²";
             } else {
                 document.getElementById("details_area").textContent = "Indéfini";
             }
             
+            // récupération de la densité du pays
             if(pays.area !== undefined)
             {
                 document.getElementById("details_density").textContent = Math.round(pays.getPopDensity()*10)/10  + " habitants/km²";
@@ -272,16 +283,20 @@ function afficheDetailsOuDrapeauPays(code_pays, flag = undefined) {
                 document.getElementById("details_density").textContent = "Indéfini";
             }
             
+            // récupération de la monnaie du pays
             if(pays.currencies[0] !== undefined) {
                 document.getElementById("details_currencies").textContent = pays.currencies;
             } else {
                 document.getElementById("details_currencies").textContent = "Aucune monnaie";
             }
+
+            // affiche les détails
+            document.getElementById("details").style.visibility = "visible";
     
         } else { // affiche le drapeau en grand
-            document.getElementById("support_flag").style.visibility = "visible";
-
             document.getElementById("big_flag").setAttribute("src", flag);
+
+            document.getElementById("support_flag").style.visibility = "visible";
         }
     }
     
