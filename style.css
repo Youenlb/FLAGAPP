@@ -21,6 +21,7 @@ body {
 
 #table-pays th {
     background-color: rgba(209, 209, 209, 0.90);
+    font-weight: normal;
 }
 
 #table-pays tbody {

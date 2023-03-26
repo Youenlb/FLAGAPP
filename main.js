@@ -113,7 +113,7 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         //Ajout densite
         if(dict_countries[code_pays].area !== undefined)
         {
-            tr_pays.getElementsByClassName("density")[0].textContent = Math.round(dict_countries[code_pays].getPopDensity()*10)/10;
+            tr_pays.getElementsByClassName("density")[0].textContent = Math.round(dict_countries[code_pays].getPopDensity()*100)/100;
         }
         else
         {
@@ -314,22 +314,29 @@ function fermerDrapeau() {
 var colonneTriee = "";
 
 function trierPaysSelonColonne(colonne) {
-    if(colonne !== colonneTriee && colonne === "name") {
-        colonneTriee = "name";
+    if(colonne !== colonneTriee && colonne === "headName") {
+
+        // mise en gras de l'intitulé de la colonne
+        if(colonneTriee !== "") {
+            document.getElementById(colonneTriee).style.fontWeight = "normal";
+        }
+        document.getElementById("headName").style.fontWeight = "bold";
+        
+        colonneTriee = "headName";
 
         let tab = Country.all_countries;
-        // trie sur la densité
+        // trie sur le nom
         let tab_sort = Object.values(tab).sort(function(a,b)
         {
-            if(a.name < b.name)
-            {
-                return 1;
+            if(a.translations["fr"] !== undefined || b.translations["fr"] !== undefined) {
+                var cleanNameA = a.translations["fr"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                var cleanNameB = b.translations["fr"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+            } else {
+                var cleanNameA = a.translations["en"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                var cleanNameB = b.translations["en"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                
             }
-            else if(a.name > b.name)
-            {
-                return -1;
-            }
-            return 0;
+            return cleanNameA.localeCompare(cleanNameB); 
         });
         
         // tableau temporaire pour recréer le dictionnaire des pays trié
@@ -341,17 +348,29 @@ function trierPaysSelonColonne(colonne) {
 
         dict_countries = tab_tmp_pays;
 
-        console.log(compteur_countries);
-        console.log(compteur_page);
-        compteur_countries = compteur_countries - NB_PAYS_PAR_PAGE; //Contient le nombre de pays afficher dans l'état de la pagination (50 pour 50 pays afficher sur les 2 pages)
+        if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
+        {
+            compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
+        }
+        else //Si la page est un multiple de NB_PAYS_PAR_PAGE
+        {
+            compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
+        }
         compteur_page = compteur_page - 1;
         onClickSuivant(); //Initialisation de la liste des pays
 
-    } else if(colonne !== colonneTriee && colonne === "population") {
-        colonneTriee = "population";
+    } else if(colonne !== colonneTriee && colonne === "headPopulation") {
+        
+        // mise en gras de l'intitulé de la colonne
+        if(colonneTriee !== "") {
+            document.getElementById(colonneTriee).style.fontWeight = "normal";
+        }
+        document.getElementById("headPopulation").style.fontWeight = "bold";
+
+        colonneTriee = "headPopulation";
 
         let tab = Country.all_countries;
-        // trie sur la densité
+        // trie sur la population
         let tab_sort = Object.values(tab).sort(function(a,b)
         {
             if(a.population < b.population)
@@ -374,11 +393,164 @@ function trierPaysSelonColonne(colonne) {
 
         dict_countries = tab_tmp_pays;
 
-
-        console.log(compteur_countries);
-        console.log(compteur_page);
-        compteur_countries = compteur_countries - NB_PAYS_PAR_PAGE; //Contient le nombre de pays afficher dans l'état de la pagination (50 pour 50 pays afficher sur les 2 pages)
+        if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
+        {
+            compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
+        }
+        else //Si la page est un multiple de NB_PAYS_PAR_PAGE
+        {
+            compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
+        }
         compteur_page = compteur_page - 1;
         onClickSuivant(); //Initialisation de la liste des pays
-    } 
+    } else if(colonne !== colonneTriee && colonne === "headArea") {
+
+        // mise en gras de l'intitulé de la colonne
+        if(colonneTriee !== "") {
+            document.getElementById(colonneTriee).style.fontWeight = "normal";
+        }
+        document.getElementById("headArea").style.fontWeight = "bold";
+
+        colonneTriee = "headArea";
+
+        let tab = Country.all_countries;
+        // trie sur la surface
+        let tab_sort = Object.values(tab).sort(function(a,b)
+        {
+            let aArea = a.area;
+            let bArea = b.area;
+
+            if(a.area === undefined) { // si le pays a une surface indéfinie
+                aArea = -1;
+            }
+
+            if(b.area === undefined) { // si le pays a une surface indéfinie
+                bArea = -1;
+            }
+
+            if(aArea < bArea)
+            {
+                return 1;
+            }
+            else if(aArea > bArea)
+            {
+                return -1;
+            }
+            return 0;
+        });
+        
+        // tableau temporaire pour recréer le dictionnaire des pays trié
+        let tab_tmp_pays= [];
+
+        for(pays of tab_sort) {
+            tab_tmp_pays[pays.alpha3Code] = dict_countries[pays.alpha3Code];
+        }
+
+        dict_countries = tab_tmp_pays;
+
+        if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
+        {
+            compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
+        }
+        else //Si la page est un multiple de NB_PAYS_PAR_PAGE
+        {
+            compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
+        }
+        compteur_page = compteur_page - 1;
+        onClickSuivant(); //Initialisation de la liste des pays
+    } else if(colonne !== colonneTriee && colonne === "headDensity") {
+        
+        // mise en gras de l'intitulé de la colonne
+        if(colonneTriee !== "") {
+            document.getElementById(colonneTriee).style.fontWeight = "normal";
+        }
+        document.getElementById("headDensity").style.fontWeight = "bold";
+        
+        colonneTriee = "headDensity";
+
+        let tab = Country.all_countries;
+        // trie sur la surface
+        let tab_sort = Object.values(tab).sort(function(a,b)
+        {
+            let aDensity = a.getPopDensity();
+            let bDensity = b.getPopDensity();
+
+            console.log(aDensity + " - " + aDensity === "NaN");
+
+            if(Number.isNaN(a.getPopDensity())) { // si le pays a une densité indéfinie
+                aDensity = -1;
+            }
+
+            if(Number.isNaN(b.getPopDensity())) { // si le pays a une densité indéfinie
+                bDensity = -1;
+            }
+
+            if(aDensity < bDensity)
+            {
+                return 1;
+            }
+            else if(aDensity > bDensity)
+            {
+                return -1;
+            }
+            return 0;
+        });
+        
+        // tableau temporaire pour recréer le dictionnaire des pays trié
+        let tab_tmp_pays= [];
+
+        for(pays of tab_sort) {
+            tab_tmp_pays[pays.alpha3Code] = dict_countries[pays.alpha3Code];
+        }
+
+        dict_countries = tab_tmp_pays;
+
+        if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
+        {
+            compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
+        }
+        else //Si la page est un multiple de NB_PAYS_PAR_PAGE
+        {
+            compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
+        }
+        compteur_page = compteur_page - 1;
+        onClickSuivant(); //Initialisation de la liste des pays
+    } else if(colonne !== colonneTriee && colonne === "headRegion") {
+
+        // mise en gras de l'intitulé de la colonne
+        if(colonneTriee !== "") {
+            document.getElementById(colonneTriee).style.fontWeight = "normal";
+        }
+        document.getElementById("headRegion").style.fontWeight = "bold";
+
+        colonneTriee = "headRegion";
+
+        let tab = Country.all_countries;
+        // trie sur le nom
+        let tab_sort = Object.values(tab).sort(function(a,b)
+        {
+            return a.region.localeCompare(b.region); 
+        });
+        
+        // tableau temporaire pour recréer le dictionnaire des pays trié
+        let tab_tmp_pays= [];
+
+        for(pays of tab_sort) {
+            tab_tmp_pays[pays.alpha3Code] = dict_countries[pays.alpha3Code];
+        }
+
+        dict_countries = tab_tmp_pays;
+
+        if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
+        {
+            compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
+        }
+        else //Si la page est un multiple de NB_PAYS_PAR_PAGE
+        {
+            compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
+        }
+        compteur_page = compteur_page - 1;
+        onClickSuivant(); //Initialisation de la liste des pays
+
+    }
 } 
