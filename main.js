@@ -341,8 +341,11 @@ function trierPaysSelonColonne(colonne) {
 
         dict_countries = tab_tmp_pays;
 
+        console.log(compteur_countries);
+        console.log(compteur_page);
+        compteur_countries = compteur_countries - NB_PAYS_PAR_PAGE; //Contient le nombre de pays afficher dans l'état de la pagination (50 pour 50 pays afficher sur les 2 pages)
+        compteur_page = compteur_page - 1;
         onClickSuivant(); //Initialisation de la liste des pays
-        onClickPrecedent();
 
     } else if(colonne !== colonneTriee && colonne === "population") {
         colonneTriee = "population";
@@ -371,7 +374,11 @@ function trierPaysSelonColonne(colonne) {
 
         dict_countries = tab_tmp_pays;
 
+
+        console.log(compteur_countries);
+        console.log(compteur_page);
+        compteur_countries = compteur_countries - NB_PAYS_PAR_PAGE; //Contient le nombre de pays afficher dans l'état de la pagination (50 pour 50 pays afficher sur les 2 pages)
+        compteur_page = compteur_page - 1;
         onClickSuivant(); //Initialisation de la liste des pays
-        onClickPrecedent();
     } 
 } 
