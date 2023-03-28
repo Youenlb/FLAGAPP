@@ -381,7 +381,18 @@ function trierPaysSelonColonne(colonne) {
             {
                 return -1;
             }
-            return 0;
+
+            // si égalité, alors trier sur le nom
+            if(a.translations["fr"] !== undefined || b.translations["fr"] !== undefined) {
+                var cleanNameA = a.translations["fr"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                var cleanNameB = b.translations["fr"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+            } else {
+                var cleanNameA = a.translations["en"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                var cleanNameB = b.translations["en"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                
+            }
+            return cleanNameA.localeCompare(cleanNameB); 
+            
         });
         
         // tableau temporaire pour recréer le dictionnaire des pays trié
@@ -436,7 +447,17 @@ function trierPaysSelonColonne(colonne) {
             {
                 return -1;
             }
-            return 0;
+
+            // si égalité, alors trier sur le nom
+            if(a.translations["fr"] !== undefined || b.translations["fr"] !== undefined) {
+                var cleanNameA = a.translations["fr"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                var cleanNameB = b.translations["fr"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+            } else {
+                var cleanNameA = a.translations["en"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                var cleanNameB = b.translations["en"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                
+            }
+            return cleanNameA.localeCompare(cleanNameB); 
         });
         
         // tableau temporaire pour recréer le dictionnaire des pays trié
@@ -493,7 +514,17 @@ function trierPaysSelonColonne(colonne) {
             {
                 return -1;
             }
-            return 0;
+            
+            // si égalité, alors trier sur le nom
+            if(a.translations["fr"] !== undefined || b.translations["fr"] !== undefined) {
+                var cleanNameA = a.translations["fr"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                var cleanNameB = b.translations["fr"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+            } else {
+                var cleanNameA = a.translations["en"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                var cleanNameB = b.translations["en"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                
+            }
+            return cleanNameA.localeCompare(cleanNameB); 
         });
         
         // tableau temporaire pour recréer le dictionnaire des pays trié
@@ -529,7 +560,21 @@ function trierPaysSelonColonne(colonne) {
         // trie sur le nom
         let tab_sort = Object.values(tab).sort(function(a,b)
         {
-            return a.region.localeCompare(b.region); 
+            let resComparaison = a.region.localeCompare(b.region);
+            if(resComparaison !== 0) {
+                return resComparaison ; 
+            }
+
+            // si égalité, alors trier sur le nom
+            if(a.translations["fr"] !== undefined || b.translations["fr"] !== undefined) {
+                var cleanNameA = a.translations["fr"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                var cleanNameB = b.translations["fr"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+            } else {
+                var cleanNameA = a.translations["en"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                var cleanNameB = b.translations["en"].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlever les accents... pour trier correctement
+                
+            }
+            return cleanNameA.localeCompare(cleanNameB); 
         });
         
         // tableau temporaire pour recréer le dictionnaire des pays trié
