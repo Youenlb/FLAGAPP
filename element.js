@@ -4,6 +4,8 @@ const PAS_MONNAIE = "Pas de monnaie";
 const PAS_SURFACE = "Indéfini";
 const ID_TBODY_PAYS = "contenu-table-pays"
 const NB_PAYS_PAR_PAGE = 25;
+const DEFAULT_VALUE_FILTRE_CONTINENT = "--Sélectionner un continent--";
+const DEFAULT_VALUE_FILTRE_LANGUE = "--Sélectionner une langue--";
 var data = 
 [   
    {

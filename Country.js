@@ -119,7 +119,7 @@ class Country
     }
     getPopDensity()
     {
-        return this._area !== undefined ? this._population/this._area : 0;  //Retourne 0.0 pour eviter la valeur Infinity
+        return this._area !== undefined ? this._population/this._area : "Unknown";  
     }
     getBorders()
     {
@@ -133,7 +133,7 @@ class Country
         }
         return tableau_pays_frontaliers; 
     }
-    getCurrencies()
+    getCurrencies() //Obtenir les monnaies utilisées dans le pays
     {
         let tableau_currencies = [];
         for(let code_currency of this.currencies)
@@ -142,7 +142,7 @@ class Country
         }
         return tableau_currencies;
     }
-    getLanguages()
+    getLanguages() //Obtenir les langages parler par le pays
     {
         let tableau_languages = [];
         for(let code_language of this.languages)
