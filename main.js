@@ -194,7 +194,7 @@ function onClickPrecedent()
     //Récupération des 25 (ou moins) éléments que l'on souhaite afficher
     if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
     {
-        compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
+        compteur_countries=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
         tab_countries = tab_code_pays.slice(compteur_countries-NB_PAYS_PAR_PAGE,compteur_countries);
     }
     else //Si la page est un multiple de NB_PAYS_PAR_PAGE
@@ -374,6 +374,7 @@ function apply_filters() //Fonction écouteur qui effectue la gestion des filtre
                 tab_pays[code_pays] = ensemble_pays[code_pays]; //On ajoute le pays dans ceux que l'on va afficher
             }
         }
+        
         dict_countries = tab_pays;
         compteur_countries = 0;
         compteur_page = 0;
