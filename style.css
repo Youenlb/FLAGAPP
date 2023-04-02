@@ -1,73 +1,73 @@
 /* Couleurs */
 :root {
-    --couleur-principale: black; /* Vert */
-    --couleur-secondaire: #ffe082; /* Jaune clair */
-    --couleur-tertiaire: #424242; /* Gris sombre */
-    --couleur-quaternaire: #757575; /* Gris moyen */
-    --couleur-quintuple: #bdbdbd; /* Gris clair */
-  }
-  
-  /* Fond de la page */
-  body {
-    background-color: var(--couleur-tertiaire);
-  }
-  
-  /* Table */
-  table {
-    border-collapse: collapse;
-    margin: auto;
-    max-width: 1000px;
-    background-color: var(--couleur-quaternaire);
-    border: 2px solid var(--couleur-principale);
-  }
-  
-  /* En-têtes de la table */
-  table th {
-    background-color: var(--couleur-secondaire);
-    color: var(--couleur-tertiaire);
-    font-weight: bold;
-    padding: 10px;
-    text-align: center;
-    border: 2px solid var(--couleur-principale);
-  }
-  
-  /* Contenu de la table */
-  table td {
-    padding: 10px;
-    text-align: center;
-    border: 2px solid var(--couleur-principale);
-    background-color: var(--couleur-quintuple);
-  }
+  --couleur-principale: black; /* Vert */
+  --couleur-secondaire: #ffe082; /* Jaune clair */
+  --couleur-tertiaire: #424242; /* Gris sombre */
+  --couleur-quaternaire: #757575; /* Gris moyen */
+  --couleur-quintuple: #bdbdbd; /* Gris clair */
+}
 
-  table th:nth-of-type(2n) {
-    background-color: grey;
-  }
-  
-  /* Images des drapeaux */
-  table td img {
-    max-height: 30px;
-  }
-  
-  /* Hover sur les lignes de la table */
-  table tbody tr:hover {
-    background-color: var(--couleur-quaternaire);
-  }
-  
-  /* Bordure en bas de la dernière ligne de la table */
-  table tbody tr:last-child td {
-    border-bottom: none;
-  }
+/* Fond de la page */
+body {
+  background-color: var(--couleur-tertiaire);
+}
 
-  #navigation {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
+/* Table */
+table {
+  border-collapse: collapse;
+  margin: auto;
+  max-width: 1000px;
+  background-color: var(--couleur-quaternaire);
+  border: 2px solid var(--couleur-principale);
+}
 
-  #navigation button {
+/* En-têtes de la table */
+table th {
+  background-color: var(--couleur-secondaire);
+  color: var(--couleur-tertiaire);
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid var(--couleur-principale);
+}
+
+/* Contenu de la table */
+table td {
+  padding: 10px;
+  text-align: center;
+  border: 2px solid var(--couleur-principale);
+  background-color: var(--couleur-quintuple);
+}
+
+table th:nth-of-type(2n) {
+  background-color: grey;
+}
+
+/* Images des drapeaux */
+table td img {
+  max-height: 30px;
+}
+
+/* Hover sur les lignes de la table */
+table tbody tr:hover {
+  background-color: var(--couleur-quaternaire);
+}
+
+/* Bordure en bas de la dernière ligne de la table */
+table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+#navigation {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+
+button {
     background-color: var(--couleur-principale);
     color: white;
     border: none;
@@ -77,19 +77,18 @@
     cursor: pointer;
     margin: 0 10px;
     transition: all 0.3s ease-in-out;
-  }
+}
   
-  #navigation button:hover {
-    background-color: var(--couleur-quintuple);
+button:hover {
+    background-color: var(--couleur-secondaire);
     color: var(--couleur-principale);
-  }
-
+}
   
 
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 #table-pays {
@@ -153,10 +152,6 @@
     padding: 5px;
 }
 
-button {
-    padding: 5px 30px;
-}
-
 #support_flag img {
     width: 70%;
     padding: 70px 70px 30px 70px;
@@ -172,4 +167,49 @@ button {
 #systeme-filtrage label,#navigation p
 {
   color: whitesmoke;
+}
+
+
+
+#details, #support_flag {
+  visibility: hidden;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  padding: 0 70px 20px 70px;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+  height: auto;
+  background-color: rgba(209, 209, 209, 0.90);
+}
+
+#details p {
+  font-size: 2em;
+}
+
+#details img {
+  width: 20%;
+  padding-bottom: 20px;
+}
+
+#details table {
+  padding-bottom: 20px;
+}
+
+#details th {
+  text-align: left;
+  padding: 5px;
+}
+
+button {
+  padding: 5px 30px;
+  margin-top: 10px;
+}
+
+#support_flag img {
+  width: 70%;
+  padding: 70px 70px 30px 70px;
 }
