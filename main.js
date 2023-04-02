@@ -191,7 +191,6 @@ function onClickPrecedent()
     {
         compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
         tab_countries = tab_code_pays.slice(compteur_countries-NB_PAYS_PAR_PAGE,compteur_countries);
-        //document.getElementById("bt_suivant").removeEventListener("click",onClickSuivant);
     }
     else //Si la page est un multiple de NB_PAYS_PAR_PAGE
     {
