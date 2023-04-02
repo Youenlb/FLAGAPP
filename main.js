@@ -379,25 +379,5 @@ function apply_filters() //Fonction écouteur qui effectue la gestion des filtre
         compteur_page = 0;
         onClickSuivant();
     }
-    //mise_a_jour_liste_pays(tab_pays);
-    //On fait une fonction qui réinitialise la liste avec tab_pays
-        //Pas un solution plus simple avec addAllCountries (je pense pas car il ne gerer pas le 25 par 25 pages donc c'est la meilleur solution celle d'en bas)
-        //mise_a_jour_liste_pays --> mets à jour la liste en faisant des droites gauche avec les fonctions ecouteur de "prec" et "suiv" en gérant les exceptions s'il y en a (genre si on ce trouve sur la premiere page ou sur la dernière page on ne peut claiement pas faire le même gauche droite donc gérant ça dans le code avec 1 structure de controle if(mettre l'exception qui va pas avec les autres en mode !(condition_exception)),else (mettre ici dans l'exception l'autre droite gauche, contraire aux autres))
-
-    //Ma solution n'est pas 100% performante (il faudrais récupérer l'ancien tableau, dans le cas ou on ajouter un filtre, cependant dans le cas ou on enleve un filtre on est obliger de remettre à jour en parcourant tout),(contenir dans un tableau en global les anciennes valeurs et les mettres à jours à chaque nx filtre et selon les valeurs on parcourt tout les pays ou seulement l'ancien ? )
-    //Solution moins performante pour le filtre langue
-        //Je récupere les langages du pays, je fais une map avec les tests pour voir si le nom est égale au nom selectionner et je fais un .contains pour voir si un true est dedans si c'est vrai on fait !(vrai)
-    //Si ce qui est sélectionner est vide "" on le prend pas en compte, sinon on le prend en compte 
-    //Pour eviter de parcourir le tableau trois fois on mets en place les if dans une boucle qui parcourt Country.all_countries (on fait en sorte d'ignorer le if si la variable de l'objet est null, donc une condition du genre (value_filtre != "" (ou constante qui signifie que c'est vide) && obj != ""))
-    //Pour le si du champ pays (faire un truc du genre comme condition (pour vérifier que le if fonctionne regarder si contains marche sur les chaines de caractère sinon utilise une autres fonction qui doit surement être implémenter par js) if (obj["nom"].contains(texte_pays(ce qui est rentrer dans le champ de texte sur le site))))
-    //Pour cela on fait trois if champ non vide alors on mets en place le filtre sur l'objet du pays
-    //on met le pays dans une variable dans la boucle, si le pays respecte le filtre on laisse l'objet, sinon on met ""
-    //A la fin de l'itération de boucle if(pays != "") alors on l'ajoute dans le tableau que l'on va retourner à la fin
-    //On retourne le tableau à la fin 
-    //Si on appui sur le bouton submit alors qu'il est vide mettre un message d'erreur en bas du champ de texte pour cela mettre 2 ecouteur sur le bouton submit un qui est la fonction filtre, puis un autre qui vérifier si l'on affiche le message d'erreur ou non
-    //Initialiser le tableau que l'on va mettre à Country.all_countries
-    //Faire une fonction pour chaque filtre (ecouteur) en mettant en parametre le tableau des pays, elle retourne le nouveau tableau dans la variable du tableau initialiser
-    //la fonction doit permettre de garder la page de pagination (en la mettant à jour) faire une fois en avant en arrire, ou l'inverse (avec onClicksuivant e tonClickPrecedent), si pas
-    //possible faire une fonction qui réinitialise la page et l'intégrer en modifiant ma pagination
 
 }
