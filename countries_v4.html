@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="alignement-filtrage-tableau">
+    <div id="systeme-filtrage">
+      <label for="continent-select">Continents:</label>
+      <select id="continent-select">
+      </select>
+    
+      <label for="langue-select">Langues:</label>
+      <select id="langue-select">
+      </select>
+    
+      <label for="pays-input">Pays:</label>
+      <input type="text" id="pays-input" placeholder="Entrez le nom du pays...">
+      <input type="submit" id="submit-pays-input" value="valider">
+    </div>
+    
+  <table id="table-pays">
+      <thead id="intitule-table-pays">
+          <tr>
+              <th>Nom</th>
+              <th>Population</th>
+              <th>Surface</th>
+              <th>Densité de population</th>
+              <th>Continent d'appartenance</th>
+              <th>Drapeau</th>
+          </tr>
+      </thead>
+      <tbody id="contenu-table-pays">
+
+      </tbody>
+  </table>
+  <div id="navigation">
+    <button id="bt_precedent">PRÉC</button>
+    <p id="num_page"></p>
+    <button id="bt_suivant">SUIV</button>
+  </div>
+  </div>
+    <template id="un_pays">
+        <tr>
+            <td class="name"></td>
+            <td class="population"></td>
+            <td class="area"></td>
+            <td class="density"></td>
+            <td class="region"></td>
+            <td class="flag"><img alt="Drapeau"></td>
+        </tr>
+    </template>
+
+    <div id="details">
+        <p id="details_name">France</p>
+        <img id="details_flag" alt="drapeau">
+        <table>
+            <tbody>
+              <tr>
+                <th scope="row">Capitale :</th>
+                <td id="details_capital"></td>
+              </tr>
+              <tr>
+                <th scope="row">Région :</th>
+                <td id="details_region"></td>
+              </tr>
+              <tr>
+                <th scope="row">Population :</th>
+                <td id="details_population"></td>
+              </tr>
+              <tr>
+                <th scope="row">Superficie :</th>
+                <td id="details_area"></td>
+              </tr>
+              <tr>
+                <th scope="row">Densité de population :</th>
+                <td id="details_density"></td>
+              </tr>
+              <tr>
+                <th scope="row">Monnaie utilisée :</th>
+                <td id="details_currencies"></td>
+              </tr>
+            </tbody>
+          </table>
+          <button onclick="fermerDetails()">Fermer</button>
+    </div>
+
+    <div id="support_flag">
+        <img alt="drapeau" id="big_flag">
+        <button onclick="fermerDrapeau()">Fermer</button>
+    </div>
+
+    <script src="element.js"></script>
+    <script src="Country.js"></script>
+    <script src="Currency.js"></script>
+    <script src="Language.js"></script>
+    <script src="main.js"></script>
+    <script>
+        fill_db();
+        onClickSuivant(); //Initialisation de la liste des pays
+
+        //-------------------------------------------------
+        //Remplissage des listes déroulantes dynamiquement 
+        //-------------------------------------------------
+
+        //Liste continents
+        let tab_continents = [DEFAULT_VALUE_FILTRE_CONTINENT,"Asia","Africa","Americas","Polar","Oceania","Europe"];
+        remplissage_liste_deroulante("continent-select",tab_continents);
+
+        //Liste langues
+        let objets_pays = Object.values(Language.all_languages); //Récupère de toutes les langues (objets)
+        let tab_langues = objets_pays.map((a) => a.name); //Récupération du nom de ces langues dans un tableau
+        tab_langues.unshift(DEFAULT_VALUE_FILTRE_LANGUE); //Ajout au première indice de la valeur par défaut de la liste
+        remplissage_liste_deroulante("langue-select",tab_langues);
+
+        //-------------------------------------------------
+        //Gestion des filtres
+        //-------------------------------------------------
+
+        //Mise en place de l'écouteur sur le bouton "Valider" pour le filtre Pays
+        bt_submit.addEventListener("click",apply_filters);
+
+        //Mise en place de l'écouteur sur la liste déroulante du filtre Continent
+        liste_continent.addEventListener("change",apply_filters);
+
+        //Mise en place de l'écouteur sur la liste déroulante du filtre Langue
+        liste_langue.addEventListener("change",apply_filters);
+
+    </script>
+</body>
+</html>

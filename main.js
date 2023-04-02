@@ -307,3 +307,97 @@ function fermerDrapeau() {
     document.getElementById("support_flag").style.visibility = "hidden";
     clic_ligne_active = true;
 }
+
+function remplissage_liste_deroulante(id_liste,table_value) //Fonction qui remplis une liste dynamiquement
+{
+    //Recupérer l'élément de la liste
+    let liste = document.getElementById(id_liste);
+    for(let value of table_value)
+    {
+        //Création d'une élément valeur
+        let option = document.createElement("option");
+        //Modification de l'attribut value de l'élément option
+        option.setAttribute("value",value);
+        //Modification de la valeur de l'élément option
+        option.textContent = value;
+        //Ajout de l'élément option à la liste
+        liste.appendChild(option);
+    }
+}
+let bt_submit = document.getElementById("submit-pays-input");
+let liste_continent = document.getElementById("continent-select");
+let liste_langue = document.getElementById("langue-select");
+let champ_texte_pays = document.getElementById("pays-input");
+function apply_filters() //Fonction écouteur qui effectue la gestion des filtres 
+{ //S'active lors du changement de valeur sur un des filtres continent ou langue (change), ou lors du click sur bouton "Valider" du pays (click)
+
+    let ensemble_pays = Country.all_countries;
+    let tab_pays = {};
+    //On récupére les valeurs des trois filtres 
+    let value_continent = liste_continent.value;
+    let value_langue = liste_langue.value;
+    let value_pays = champ_texte_pays.value.toLowerCase();
+
+    if(value_continent === DEFAULT_VALUE_FILTRE_CONTINENT && value_langue === DEFAULT_VALUE_FILTRE_LANGUE && value_pays === "")
+    {
+        dict_countries = Country.all_countries;
+        compteur_countries = 0;
+        compteur_page = 0;
+        onClickSuivant();
+    }
+    else
+    {
+        for(let code_pays in ensemble_pays) //Parcours tout les pays
+        {
+            let garde = true;
+            let langue_presente = ensemble_pays[code_pays].getLanguages().some(langue => { //Vérifie que la langue est parlé dans le pays (si c'est le cas on arrête directement la boucle, pour éviter de parcourir tout les langues)
+                if(langue.name === value_langue)
+                {
+                    return true;
+                }
+                return false;
+            });
+            if(value_continent !== DEFAULT_VALUE_FILTRE_CONTINENT && value_continent !== ensemble_pays[code_pays].region) //Si ce n'est pas la valeur par défault et que la valeur n'est pas égale à la region du pays
+            {
+                garde = false; //On met à faux pour dire que l'on ne va pas ajouter ce pays dans le filtre car il ne le respecte pas
+            }
+            else if(value_langue !== DEFAULT_VALUE_FILTRE_LANGUE && !(langue_presente))//Si ce n'est pas la valeur par défault et que la langue n'est pas parlé par le pays
+            {
+                garde = false;
+            }
+            else if(value_pays !== "" && !(ensemble_pays[code_pays].translations["fr"].toLowerCase().includes(value_pays) || ensemble_pays[code_pays].translations["en"].toLowerCase().includes(value_pays))) //Si le champ n'est pas vide et que le texte saisis est contenu soit dans le nom du pays français ou anglais
+            {
+                garde = false;
+            } 
+            if(garde)//Si le pays respecte tout les filtres 
+            {
+                tab_pays[code_pays] = ensemble_pays[code_pays]; //On ajoute le pays dans ceux que l'on va afficher
+            }
+        }
+        dict_countries = tab_pays;
+        compteur_countries = 0;
+        compteur_page = 0;
+        onClickSuivant();
+    }
+    //mise_a_jour_liste_pays(tab_pays);
+    //On fait une fonction qui réinitialise la liste avec tab_pays
+        //Pas un solution plus simple avec addAllCountries (je pense pas car il ne gerer pas le 25 par 25 pages donc c'est la meilleur solution celle d'en bas)
+        //mise_a_jour_liste_pays --> mets à jour la liste en faisant des droites gauche avec les fonctions ecouteur de "prec" et "suiv" en gérant les exceptions s'il y en a (genre si on ce trouve sur la premiere page ou sur la dernière page on ne peut claiement pas faire le même gauche droite donc gérant ça dans le code avec 1 structure de controle if(mettre l'exception qui va pas avec les autres en mode !(condition_exception)),else (mettre ici dans l'exception l'autre droite gauche, contraire aux autres))
+
+    //Ma solution n'est pas 100% performante (il faudrais récupérer l'ancien tableau, dans le cas ou on ajouter un filtre, cependant dans le cas ou on enleve un filtre on est obliger de remettre à jour en parcourant tout),(contenir dans un tableau en global les anciennes valeurs et les mettres à jours à chaque nx filtre et selon les valeurs on parcourt tout les pays ou seulement l'ancien ? )
+    //Solution moins performante pour le filtre langue
+        //Je récupere les langages du pays, je fais une map avec les tests pour voir si le nom est égale au nom selectionner et je fais un .contains pour voir si un true est dedans si c'est vrai on fait !(vrai)
+    //Si ce qui est sélectionner est vide "" on le prend pas en compte, sinon on le prend en compte 
+    //Pour eviter de parcourir le tableau trois fois on mets en place les if dans une boucle qui parcourt Country.all_countries (on fait en sorte d'ignorer le if si la variable de l'objet est null, donc une condition du genre (value_filtre != "" (ou constante qui signifie que c'est vide) && obj != ""))
+    //Pour le si du champ pays (faire un truc du genre comme condition (pour vérifier que le if fonctionne regarder si contains marche sur les chaines de caractère sinon utilise une autres fonction qui doit surement être implémenter par js) if (obj["nom"].contains(texte_pays(ce qui est rentrer dans le champ de texte sur le site))))
+    //Pour cela on fait trois if champ non vide alors on mets en place le filtre sur l'objet du pays
+    //on met le pays dans une variable dans la boucle, si le pays respecte le filtre on laisse l'objet, sinon on met ""
+    //A la fin de l'itération de boucle if(pays != "") alors on l'ajoute dans le tableau que l'on va retourner à la fin
+    //On retourne le tableau à la fin 
+    //Si on appui sur le bouton submit alors qu'il est vide mettre un message d'erreur en bas du champ de texte pour cela mettre 2 ecouteur sur le bouton submit un qui est la fonction filtre, puis un autre qui vérifier si l'on affiche le message d'erreur ou non
+    //Initialiser le tableau que l'on va mettre à Country.all_countries
+    //Faire une fonction pour chaque filtre (ecouteur) en mettant en parametre le tableau des pays, elle retourne le nouveau tableau dans la variable du tableau initialiser
+    //la fonction doit permettre de garder la page de pagination (en la mettant à jour) faire une fois en avant en arrire, ou l'inverse (avec onClicksuivant e tonClickPrecedent), si pas
+    //possible faire une fonction qui réinitialise la page et l'intégrer en modifiant ma pagination
+
+}
