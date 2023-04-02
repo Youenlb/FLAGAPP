@@ -328,25 +328,7 @@ function remplissage_liste_deroulante(id_liste,table_value) //Fonction qui rempl
         //Ajout de l'élément option à la liste
         liste.appendChild(option);
     }
-}/*
-function mise_a_jour_liste_pays(dict_countries)
-{
-    //let longueur_tableau = Object.keys(dict_countries).length;
-    compteur_countries = 0;
-    compteur_page = 0;
-
-    /*
-    if(compteur_countries !== longueur_tableau)
-    {
-        onClickSuivant();
-        onClickPrecedent();
-    }
-    else
-    {
-        onClickPrecedent();
-        onClickSuivant();
-    }*/
-//}
+}
 let bt_submit = document.getElementById("submit-pays-input");
 let liste_continent = document.getElementById("continent-select");
 let liste_langue = document.getElementById("langue-select");
@@ -360,9 +342,6 @@ function apply_filters() //Fonction écouteur qui effectue la gestion des filtre
     let value_continent = liste_continent.value;
     let value_langue = liste_langue.value;
     let value_pays = champ_texte_pays.value.toLowerCase();
-    //console.log("Valeur 1 : "+value_continent);
-    //console.log("Valeur 2 : "+value_langue);
-    console.log("Valeur 3 : "+value_pays);
 
     if(value_continent === DEFAULT_VALUE_FILTRE_CONTINENT && value_langue === DEFAULT_VALUE_FILTRE_LANGUE && value_pays === "")
     {
@@ -383,17 +362,6 @@ function apply_filters() //Fonction écouteur qui effectue la gestion des filtre
                 }
                 return false;
             });
-            //console.log("Condition 1 : "+(value_continent !== DEFAULT_VALUE_FILTRE_CONTINENT && value_continent !== ensemble_pays[code_pays].region));
-            //console.log("Condition 2 : "+(value_langue !== DEFAULT_VALUE_FILTRE_LANGUE && !(langue_presente)));
-            console.log("Condition 3 : "+(value_pays !== "" && !(ensemble_pays[code_pays].translations["fr"].includes(value_pays) || ensemble_pays[code_pays].translations["en"].includes(value_pays))));
-            if(code_pays === "ENG")
-            {
-                console.log(ensemble_pays[code_pays].translations["fr"]);
-                console.log(ensemble_pays[code_pays].translations["en"]);
-                console.log("test 1 : "+(value_pays !== ""));
-                console.log("test 2 : "+(ensemble_pays[code_pays].translations["fr"].includes(value_pays)));
-                console.log("test 3 : "+(ensemble_pays[code_pays].translations["en"].includes(value_pays)));
-            }
             if(value_continent !== DEFAULT_VALUE_FILTRE_CONTINENT && value_continent !== ensemble_pays[code_pays].region) //Si ce n'est pas la valeur par défault et que la valeur n'est pas égale à la region du pays
             {
                 garde = false; //On met à faux pour dire que l'on ne va pas ajouter ce pays dans le filtre car il ne le respecte pas
