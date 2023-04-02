@@ -85,50 +85,54 @@ function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
         tr_pays.setAttribute("id",code_pays);
 
         //Ajout du nom 
-        if(dict_countries[code_pays].translations["fr"] !== undefined)
-        {
-            tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["fr"];
-        }
-        else
-        {
-            tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["en"];
-        }
-        tr_pays.getElementsByClassName("name")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
-        
-        //Ajout population
-        tr_pays.getElementsByClassName("population")[0].textContent = dict_countries[code_pays].population;
-        tr_pays.getElementsByClassName("population")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+        //console.log("TEST -----------");
+        //console.log(dict_countries);
 
-        //Ajout surface
-        if(dict_countries[code_pays].area !== undefined)
-        {
-            tr_pays.getElementsByClassName("area")[0].textContent = dict_countries[code_pays].area;
-        }
-        else
-        {
-            tr_pays.getElementsByClassName("area")[0].textContent = PAS_SURFACE;
-        }
-        tr_pays.getElementsByClassName("area")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+        if(dict_countries[code_pays] !== undefined) {
+            if(dict_countries[code_pays].translations["fr"] !== undefined)
+            {
+                tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["fr"];
+            }
+            else
+            {
+                tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["en"];
+            }
+            tr_pays.getElementsByClassName("name")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+            
+            //Ajout population
+            tr_pays.getElementsByClassName("population")[0].textContent = dict_countries[code_pays].population;
+            tr_pays.getElementsByClassName("population")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
 
-        //Ajout densite
-        if(dict_countries[code_pays].area !== undefined)
-        {
-            tr_pays.getElementsByClassName("density")[0].textContent = Math.round(dict_countries[code_pays].getPopDensity()*100)/100;
-        }
-        else
-        {
-            tr_pays.getElementsByClassName("density")[0].textContent = PAS_SURFACE;
-        }
-        tr_pays.getElementsByClassName("density")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
-        
-        //Ajout continent
-        tr_pays.getElementsByClassName("region")[0].textContent = dict_countries[code_pays].region;
-        tr_pays.getElementsByClassName("region")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+            //Ajout surface
+            if(dict_countries[code_pays].area !== undefined)
+            {
+                tr_pays.getElementsByClassName("area")[0].textContent = dict_countries[code_pays].area;
+            }
+            else
+            {
+                tr_pays.getElementsByClassName("area")[0].textContent = PAS_SURFACE;
+            }
+            tr_pays.getElementsByClassName("area")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
 
-        //Ajout flag
-        tr_pays.getElementsByClassName("flag")[0].querySelector("img").setAttribute("src",dict_countries[code_pays].flag);
-        tr_pays.getElementsByClassName("flag")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays + "\",\"" + dict_countries[code_pays].flag + "\")");
+            //Ajout densite
+            if(dict_countries[code_pays].area !== undefined)
+            {
+                tr_pays.getElementsByClassName("density")[0].textContent = Math.round(dict_countries[code_pays].getPopDensity()*100)/100;
+            }
+            else
+            {
+                tr_pays.getElementsByClassName("density")[0].textContent = PAS_SURFACE;
+            }
+            tr_pays.getElementsByClassName("density")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+            
+            //Ajout continent
+            tr_pays.getElementsByClassName("region")[0].textContent = dict_countries[code_pays].region;
+            tr_pays.getElementsByClassName("region")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
 
+            //Ajout flag
+            tr_pays.getElementsByClassName("flag")[0].querySelector("img").setAttribute("src",dict_countries[code_pays].flag);
+            tr_pays.getElementsByClassName("flag")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays + "\",\"" + dict_countries[code_pays].flag + "\")");
+        }
         document.getElementById(id_table_body_pays).appendChild(clone_content_template);
     }
 }
@@ -375,6 +379,8 @@ function apply_filters() //Fonction écouteur qui effectue la gestion des filtre
             }
         }
         
+        console.log(tab_pays);
+
         dict_countries = tab_pays;
         compteur_countries = 0;
         compteur_page = 0;
@@ -397,7 +403,7 @@ function trierPaysSelonColonne(colonne) {
         
         colonneTriee = "headName";
 
-        let tab = Country.all_countries;
+        let tab = dict_countries;
         // trie sur le nom
         let tab_sort = Object.values(tab).sort(function(a,b)
         {
@@ -421,16 +427,9 @@ function trierPaysSelonColonne(colonne) {
 
         dict_countries = tab_tmp_pays;
 
-        if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
-        {
-            compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
-        }
-        else //Si la page est un multiple de NB_PAYS_PAR_PAGE
-        {
-            compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
-        }
-        compteur_page = compteur_page - 1;
-        onClickSuivant(); //Initialisation de la liste des pays
+        compteur_countries = 0;
+        compteur_page = 0;
+        onClickSuivant();
 
     } else if(colonne !== colonneTriee && colonne === "headPopulation") {
         
@@ -442,7 +441,7 @@ function trierPaysSelonColonne(colonne) {
 
         colonneTriee = "headPopulation";
 
-        let tab = Country.all_countries;
+        let tab = dict_countries;
         // trie sur la population
         let tab_sort = Object.values(tab).sort(function(a,b)
         {
@@ -477,16 +476,9 @@ function trierPaysSelonColonne(colonne) {
 
         dict_countries = tab_tmp_pays;
 
-        if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
-        {
-            compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
-        }
-        else //Si la page est un multiple de NB_PAYS_PAR_PAGE
-        {
-            compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
-        }
-        compteur_page = compteur_page - 1;
-        onClickSuivant(); //Initialisation de la liste des pays
+        compteur_countries = 0;
+        compteur_page = 0;
+        onClickSuivant();
     } else if(colonne !== colonneTriee && colonne === "headArea") {
 
         // mise en gras de l'intitulé de la colonne
@@ -497,7 +489,7 @@ function trierPaysSelonColonne(colonne) {
 
         colonneTriee = "headArea";
 
-        let tab = Country.all_countries;
+        let tab = dict_countries;
         // trie sur la surface
         let tab_sort = Object.values(tab).sort(function(a,b)
         {
@@ -542,16 +534,10 @@ function trierPaysSelonColonne(colonne) {
 
         dict_countries = tab_tmp_pays;
 
-        if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
-        {
-            compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
-        }
-        else //Si la page est un multiple de NB_PAYS_PAR_PAGE
-        {
-            compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
-        }
-        compteur_page = compteur_page - 1;
-        onClickSuivant(); //Initialisation de la liste des pays
+        
+        compteur_countries = 0;
+        compteur_page = 0;
+        onClickSuivant();
     } else if(colonne !== colonneTriee && colonne === "headDensity") {
         
         // mise en gras de l'intitulé de la colonne
@@ -562,14 +548,12 @@ function trierPaysSelonColonne(colonne) {
         
         colonneTriee = "headDensity";
 
-        let tab = Country.all_countries;
+        let tab = dict_countries;
         // trie sur la surface
         let tab_sort = Object.values(tab).sort(function(a,b)
         {
             let aDensity = a.getPopDensity();
             let bDensity = b.getPopDensity();
-
-            console.log(aDensity + " - " + aDensity === "NaN");
 
             if(Number.isNaN(a.getPopDensity())) { // si le pays a une densité indéfinie
                 aDensity = -1;
@@ -609,16 +593,9 @@ function trierPaysSelonColonne(colonne) {
 
         dict_countries = tab_tmp_pays;
 
-        if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
-        {
-            compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
-        }
-        else //Si la page est un multiple de NB_PAYS_PAR_PAGE
-        {
-            compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
-        }
-        compteur_page = compteur_page - 1;
-        onClickSuivant(); //Initialisation de la liste des pays
+        compteur_countries = 0;
+        compteur_page = 0;
+        onClickSuivant();
     } else if(colonne !== colonneTriee && colonne === "headRegion") {
 
         // mise en gras de l'intitulé de la colonne
@@ -629,7 +606,7 @@ function trierPaysSelonColonne(colonne) {
 
         colonneTriee = "headRegion";
 
-        let tab = Country.all_countries;
+        let tab = dict_countries;
         // trie sur le nom
         let tab_sort = Object.values(tab).sort(function(a,b)
         {
@@ -653,22 +630,15 @@ function trierPaysSelonColonne(colonne) {
         // tableau temporaire pour recréer le dictionnaire des pays trié
         let tab_tmp_pays= [];
 
+        console.log(tab_sort);
+
         for(pays of tab_sort) {
             tab_tmp_pays[pays.alpha3Code] = dict_countries[pays.alpha3Code];
         }
 
         dict_countries = tab_tmp_pays;
-
-        if(compteur_countries%NB_PAYS_PAR_PAGE !== 0) //Si la page n'est pas un multiple de NB_PAYS_PAR_PAGE (on se trouve sur la dernière page)
-        {
-            compteur_countries-=compteur_countries-(compteur_countries%NB_PAYS_PAR_PAGE); //On enleve le reste de la division euclidienne au compteur (ce qui permet de revenir à l'avant dernière page)
-        }
-        else //Si la page est un multiple de NB_PAYS_PAR_PAGE
-        {
-            compteur_countries-=NB_PAYS_PAR_PAGE; //On enleve NB_PAYS_PAR_PAGE au compteur
-        }
-        compteur_page = compteur_page - 1;
-        onClickSuivant(); //Initialisation de la liste des pays
-
+        compteur_countries = 0;
+        compteur_page = 0;
+        onClickSuivant();
     }
-} 
+}

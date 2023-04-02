@@ -8,26 +8,42 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <table id="table-pays">
-        <thead id="intitule-table-pays">
-            <tr>
-                <th onclick="trierPaysSelonColonne('headName')" id="headName">Nom</th>
-                <th onclick="trierPaysSelonColonne('headPopulation')" id="headPopulation">Population</th>
-                <th onclick="trierPaysSelonColonne('headArea')" id="headArea">Surface</th>
-                <th onclick="trierPaysSelonColonne('headDensity')" id="headDensity">Densité de population</th>
-                <th onclick="trierPaysSelonColonne('headRegion')" id="headRegion">Continent d'appartenance</th>
-                <th>Drapeau</th>
-            </tr>
-        </thead>
-        <tbody id="contenu-table-pays">
-
-        </tbody>
-    </table>
-    <div id="navigation">
-      <button id="bt_precedent">PRÉC</button>
-      <p id="num_page"></p>
-      <button id="bt_suivant">SUIV</button>
+  <div class="alignement-filtrage-tableau">
+    <div id="systeme-filtrage">
+      <label for="continent-select">Continents:</label>
+      <select id="continent-select">
+      </select>
+    
+      <label for="langue-select">Langues:</label>
+      <select id="langue-select">
+      </select>
+    
+      <label for="pays-input">Pays:</label>
+      <input type="text" id="pays-input" placeholder="Entrez le nom du pays...">
+      <input type="submit" id="submit-pays-input" value="valider">
     </div>
+    
+  <table id="table-pays">
+      <thead id="intitule-table-pays">
+          <tr>
+            <th onclick="trierPaysSelonColonne('headName')" id="headName">Nom</th>
+            <th onclick="trierPaysSelonColonne('headPopulation')" id="headPopulation">Population</th>
+            <th onclick="trierPaysSelonColonne('headArea')" id="headArea">Surface</th>
+            <th onclick="trierPaysSelonColonne('headDensity')" id="headDensity">Densité de population</th>
+            <th onclick="trierPaysSelonColonne('headRegion')" id="headRegion">Continent d'appartenance</th>
+            <th>Drapeau</th>
+          </tr>
+      </thead>
+      <tbody id="contenu-table-pays">
+
+      </tbody>
+  </table>
+  <div id="navigation">
+    <button id="bt_precedent">PRÉC</button>
+    <p id="num_page"></p>
+    <button id="bt_suivant">SUIV</button>
+  </div>
+  </div>
     <template id="un_pays">
         <tr>
             <td class="name"></td>
@@ -85,14 +101,35 @@
     <script src="main.js"></script>
     <script>
         fill_db();
-
         onClickSuivant(); //Initialisation de la liste des pays
 
-        //Ajout de l'écouteur sur le bouton suivant
-        let bt_suivant = document.getElementById("bt_suivant"); //Récupération de l'élément
-        bt_suivant.addEventListener("click",onClickSuivant); //Ajout de l'écouteur
-        
-        //grisage
-      </script>
+        //-------------------------------------------------
+        //Remplissage des listes déroulantes dynamiquement 
+        //-------------------------------------------------
+
+        //Liste continents
+        let tab_continents = [DEFAULT_VALUE_FILTRE_CONTINENT,"Asia","Africa","Americas","Polar","Oceania","Europe"];
+        remplissage_liste_deroulante("continent-select",tab_continents);
+
+        //Liste langues
+        let objets_pays = Object.values(Language.all_languages); //Récupère de toutes les langues (objets)
+        let tab_langues = objets_pays.map((a) => a.name); //Récupération du nom de ces langues dans un tableau
+        tab_langues.unshift(DEFAULT_VALUE_FILTRE_LANGUE); //Ajout au première indice de la valeur par défaut de la liste
+        remplissage_liste_deroulante("langue-select",tab_langues);
+
+        //-------------------------------------------------
+        //Gestion des filtres
+        //-------------------------------------------------
+
+        //Mise en place de l'écouteur sur le bouton "Valider" pour le filtre Pays
+        bt_submit.addEventListener("click",apply_filters);
+
+        //Mise en place de l'écouteur sur la liste déroulante du filtre Continent
+        liste_continent.addEventListener("change",apply_filters);
+
+        //Mise en place de l'écouteur sur la liste déroulante du filtre Langue
+        liste_langue.addEventListener("change",apply_filters);
+
+    </script>
 </body>
 </html>

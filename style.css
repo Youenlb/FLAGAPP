@@ -25,7 +25,7 @@ table {
 table th {
   background-color: var(--couleur-secondaire);
   color: var(--couleur-tertiaire);
-  font-weight: bold;
+  font-weight: normal;
   padding: 10px;
   text-align: center;
   border: 2px solid var(--couleur-principale);
