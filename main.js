@@ -73,3 +73,63 @@ function fill_db()
         );
     }
 }
+
+function addAllCountries(tab_code_pays,template_countrie,id_table_body_pays)
+{
+    let dict_countries = Country.all_countries;
+    for(let code_pays of tab_code_pays)
+    {
+        let clone_content_template = document.importNode(template_countrie.content, true);
+
+        //Mise à jour de l'id du tr du pays (attribut)
+        let tr_pays = clone_content_template.querySelector("tr");
+        tr_pays.setAttribute("id",code_pays);
+
+        //Ajout du nom 
+        if(dict_countries[code_pays].translations["fr"] !== undefined)
+        {
+            tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["fr"];
+        }
+        else
+        {
+            tr_pays.getElementsByClassName("name")[0].textContent = dict_countries[code_pays].translations["en"];
+        }
+        tr_pays.getElementsByClassName("name")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+        
+        //Ajout population
+        tr_pays.getElementsByClassName("population")[0].textContent = dict_countries[code_pays].population;
+        tr_pays.getElementsByClassName("population")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+
+        //Ajout surface
+        if(dict_countries[code_pays].area !== undefined)
+        {
+            tr_pays.getElementsByClassName("area")[0].textContent = dict_countries[code_pays].area;
+        }
+        else
+        {
+            tr_pays.getElementsByClassName("area")[0].textContent = PAS_SURFACE;
+        }
+        tr_pays.getElementsByClassName("area")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+
+        //Ajout densite
+        if(dict_countries[code_pays].area !== undefined)
+        {
+            tr_pays.getElementsByClassName("density")[0].textContent = dict_countries[code_pays].getPopDensity();
+        }
+        else
+        {
+            tr_pays.getElementsByClassName("density")[0].textContent = PAS_SURFACE;
+        }
+        tr_pays.getElementsByClassName("density")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+        
+        //Ajout continent
+        tr_pays.getElementsByClassName("region")[0].textContent = dict_countries[code_pays].region;
+        tr_pays.getElementsByClassName("region")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays+ "\")");
+
+        //Ajout flag
+        tr_pays.getElementsByClassName("flag")[0].querySelector("img").setAttribute("src",dict_countries[code_pays].flag);
+        tr_pays.getElementsByClassName("flag")[0].setAttribute("onclick", "afficheDetailsOuDrapeauPays(\""+ code_pays + "\",\"" + dict_countries[code_pays].flag + "\")");
+
+        document.getElementById(id_table_body_pays).appendChild(clone_content_template);
+    }
+}
